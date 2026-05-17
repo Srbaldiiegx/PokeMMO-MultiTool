@@ -654,7 +654,7 @@
         saveAll(); renderShowcase(); this.reset();
     });
 
-    function renderShowcase() {
+        function renderShowcase() {
         const grid = document.getElementById('showcase-members-grid');
         if (!grid) return;
         grid.innerHTML = '';
@@ -672,7 +672,7 @@
                     ${favorite ? `<div class="buddy-sprite"><img src="${favorite.sprite}"></div>` : ''}
                 </div>
                 <h3 style="color:var(--text-main); font-size:1.2em;">${user.name}</h3>
-                <div style="margin-top: 8px;"><span class="badge-count">${user.pokemons.length} Shinys</span></div>
+                <div style="margin-top: 8px;"><span class="badge-count">Shinys: ${user.pokemons.length}</span></div>
             `;
             grid.appendChild(card);
         });
