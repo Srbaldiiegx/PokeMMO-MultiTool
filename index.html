@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeMMO Ultimate Toolkit</title>
+    <title>PokeMMO Ultimate Toolkit v4.1</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -40,7 +40,7 @@
             align-items: center; 
             min-height: 100vh;
             
-            /* --- FONDO ANIMADO CLARO REQUERIDO (image_9.png) --- */
+            /* --- FONDO ANIMADO CLARO (image_9.png) --- */
             background-image: url('image_9.png');
             background-size: auto 100%;
             background-repeat: repeat-x;
@@ -171,7 +171,7 @@
         .warning-text { color: var(--accent); font-size: 0.85em; font-weight: bold; display: block; }
 
         /* ==========================================================================
-           --- ESTILOS INTEGRADOS DE SHINY SHOWCASE ---
+           --- ESTILOS DE SHINY SHOWCASE ---
            ========================================================================== */
         .section-container#showcase-section { max-width: 1100px; width: 100%; }
         
@@ -246,12 +246,15 @@
         
         .badge-count { background-color: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--showcase-accent); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
 
-        /* --- Modal --- */
+        /* --- Modales --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background-color: #121614; border: 1px solid var(--border); border-radius: var(--radius-lg); width: 92%; max-width: 640px; padding: 30px; position: relative; max-height: 85vh; overflow-y: auto; color: var(--text-main); }
         .shiny-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; background-color: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius-md); }
-        .pokemon-card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; text-align: center; position: relative; }
-        .fav-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; transition: color 0.2s; }
+        
+        .pokemon-card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; text-align: center; position: relative; transition: 0.2s; }
+        .pokemon-card:hover { border-color: var(--showcase-accent); background: var(--bg-surface-hover); }
+        
+        .fav-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; transition: color 0.2s; z-index: 10; }
         .fav-btn.active { color: var(--showcase-accent); }
         .pokemon-card img { width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; }
         .pokemon-card p { font-size: 0.75rem; font-weight: 700; margin-top: 4px; }
@@ -334,17 +337,43 @@
                 </div>
                 <div class="form-group">
                     <label>Especie Pokémon</label>
-                    <input type="text" id="poke-name" placeholder="Ej. Darkrai" required>
+                    <input type="text" id="poke-name" placeholder="Ej. Darkrai, Charizard" required>
                 </div>
                 <div class="form-group">
-                    <label>Sprite Shiny (Animado/Fijo)</label>
-                    <input type="file" id="poke-sprite" accept="image/*">
+                    <label>Naturaleza</label>
+                    <select id="poke-nature">
+                        <option value="Firme (Adamant)">Firme (Adamant)</option>
+                        <option value="Alegre (Jolly)">Alegre (Jolly)</option>
+                        <option value="Modesta (Modest)">Modesta (Modest)</option>
+                        <option value="Miedosa (Timid)">Miedosa (Timid)</option>
+                        <option value="Grosera (Sassy)">Grosera (Sassy)</option>
+                        <option value="Plácida (Relaxed)">Plácida (Relaxed)</option>
+                        <option value="Osada (Bold)">Osada (Bold)</option>
+                        <option value="Firme (Adamant)">Firme (Adamant)</option>
+                        <option value="Neutro (Serious/Hardy...)">Neutro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ruta / Sitio de Encuentro</label>
+                    <input type="text" id="poke-location" placeholder="Ej. Ruta 210, Calle Victoria">
                 </div>
                 <div class="form-group">
                     <label>Encuentros / Huevos</label>
                     <input type="number" id="poke-encounters" placeholder="0">
                 </div>
-                <button type="submit" class="btn-showcase-submit">Añadir Shiny</button>
+                <div class="form-group">
+                    <label>Sprite Shiny</label>
+                    <input type="text" style="opacity: 0.6; font-size: 0.85em;" value="✨ Animación Showdown Activa" disabled>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>IVs aproximados (Atq / Def / PS)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="poke-iv-atk" placeholder="Atq" min="0" max="31">
+                        <input type="number" id="poke-iv-def" placeholder="Def" min="0" max="31">
+                        <input type="number" id="poke-iv-hp" placeholder="PS" min="0" max="31">
+                    </div>
+                </div>
+                <button type="submit" class="btn-showcase-submit" style="grid-column: span 2;">Añadir Shiny</button>
             </form>
         </div>
     </section>
@@ -361,6 +390,29 @@
         <button class="btn-toggle" style="position:absolute; top:20px; right:20px;" onclick="closeModal()">Cerrar</button>
         <h2 id="modal-member-name" style="margin-bottom:20px; color: var(--showcase-accent)">Entrenador</h2>
         <div class="shiny-grid" id="container-shinys-activos"></div>
+    </div>
+</div>
+
+<div id="pokemon-detail-modal" class="modal-overlay" style="display: none; z-index: 3000;">
+    <div class="modal-content" style="max-width: 400px; text-align: center; position: relative;">
+        <button class="btn-toggle" style="position: absolute; top: 15px; right: 15px; padding: 4px 10px;" onclick="closePokemonModal()">×</button>
+        <h2 id="pmodal-name" style="color: var(--gold); margin-bottom: 5px;">---</h2>
+        
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin: 15px 0; display: flex; justify-content: center; align-items: center;">
+            <img id="pmodal-sprite" src="" style="width: 110px; height: 110px; object-fit: contain; image-rendering: pixelated;">
+        </div>
+
+        <div style="text-align: left; background: var(--bg-input); padding: 15px; border-radius: 8px; font-size: 0.95em;">
+            <p style="margin: 6px 0;">✨ <b>Encuentros:</b> <span id="pmodal-encounters" style="color: var(--text-main);">0</span></p>
+            <p style="margin: 6px 0;">🌸 <b>Naturaleza:</b> <span id="pmodal-nature" style="color: var(--text-main);">---</span></p>
+            <p style="margin: 6px 0;">🗺️ <b>Lugar:</b> <span id="pmodal-location" style="color: var(--text-main);">---</span></p>
+            <p style="margin: 6px 0; border-top: 1px solid #444; padding-top: 8px; font-weight: bold; color: var(--text-muted)">📊 IVs DESTACADOS:</p>
+            <div style="display: flex; gap: 15px; color: var(--showcase-accent); font-weight: bold; font-family: monospace; margin-top: 4px;">
+                <span>⚔️ ATQ: <span id="pmodal-iv-atk">0</span></span>
+                <span>🛡️ DEF: <span id="pmodal-iv-def">0</span></span>
+                <span>❤️ PS: <span id="pmodal-iv-hp">0</span></span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -425,7 +477,7 @@
         });
     }
 
-    // --- LÓGICA DE SELECCIÓN HISTORIAL ---
+    // --- HISTORIAL ---
     function selectBerryLog(charIdx, logIdx) {
         const log = berryChars[charIdx].logs[logIdx];
         berryChars[charIdx].nextWater = log.riego || '--:--';
@@ -565,20 +617,16 @@
         saveAll();
     }
 
-    // --- SISTEMA GENERAL DE NAVEGACIÓN ---
+    // --- NAVEGACIÓN GENERAL ---
     function showSection(id, btn) {
         document.querySelectorAll('.section-container').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         btn.classList.add('active');
         
-        // Ocultar el control de alarmas de pruebas cuando estemos en el showcase para ahorrar espacio visual
         const sysPanel = document.getElementById('global-system-panel');
-        if (id === 'showcase-section') {
-            sysPanel.style.display = 'none';
-        } else {
-            sysPanel.style.display = 'flex';
-        }
+        if (id === 'showcase-section') { sysPanel.style.display = 'none'; } 
+        else { sysPanel.style.display = 'flex'; }
     }
 
     function saveAll() {
@@ -604,7 +652,7 @@
     }
 
     // ==========================================================================
-    // --- LÓGICA INTEGRADA DE SHINY SHOWCASE ---
+    // --- LÓGICA DE SHINY SHOWCASE CORREGIDA V4.1 ---
     // ==========================================================================
     function toggleAdminPanel() {
         const content = document.getElementById('admin-content');
@@ -635,26 +683,47 @@
         const avatar = await convertImage(document.getElementById('reg-avatar'));
         showcaseData.push({
             name: document.getElementById('reg-username').value,
-            avatar: avatar || "https://img.pokemondb.net/sprites/trainers/red.png",
+            avatar: avatar || "https://img.pokemondb.net/sprites/trainers/emerald/red.png",
             pokemons: []
         });
         saveAll(); renderShowcase(); updateUserSelect(); this.reset();
     });
 
-    document.getElementById('pokemon-form').addEventListener('submit', async function(e) {
+    // GUARDAR CON NUEVOS CAMPOS (IVS, LUGAR, NATURALEZA)
+    document.getElementById('pokemon-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        const sprite = await convertImage(document.getElementById('poke-sprite'));
-        const userIdx = document.getElementById('poke-user-select').value;
-        showcaseData[userIdx].pokemons.push({
-            name: document.getElementById('poke-name').value,
-            sprite: sprite || "https://img.pokemondb.net/sprites/items/poke-ball.png",
-            encounters: document.getElementById('poke-encounters').value || 0,
-            isFavorite: false
-        });
-        saveAll(); renderShowcase(); this.reset();
+        
+        let rawName = document.getElementById('poke-name').value.trim();
+        if (!rawName) return;
+        
+        let pokeNameLower = rawName.toLowerCase().replace(/\s+/g, '');
+        const userIdx = parseInt(document.getElementById('poke-user-select').value);
+        
+        const animatedSpriteURL = `https://play.pokemonshowdown.com/sprites/ani-shiny/${pokeNameLower}.gif`;
+
+        if (showcaseData[userIdx]) {
+            showcaseData[userIdx].pokemons.push({
+                name: rawName.charAt(0).toUpperCase() + rawName.slice(1),
+                sprite: animatedSpriteURL,
+                encounters: document.getElementById('poke-encounters').value || 0,
+                nature: document.getElementById('poke-nature').value,
+                location: document.getElementById('poke-location').value.trim() || 'Desconocido',
+                ivs: {
+                    atk: document.getElementById('poke-iv-atk').value || '?',
+                    def: document.getElementById('poke-iv-def').value || '?',
+                    hp: document.getElementById('poke-iv-hp').value || '?'
+                },
+                isFavorite: false
+            });
+
+            saveAll();
+            renderShowcase();
+            this.reset();
+            toggleAdminPanel();
+        }
     });
 
-        function renderShowcase() {
+    function renderShowcase() {
         const grid = document.getElementById('showcase-members-grid');
         if (!grid) return;
         grid.innerHTML = '';
@@ -680,17 +749,14 @@
 
     function deleteUser(event, idx) {
         event.stopPropagation();
-        const username = showcaseData[idx].name;
-        if (confirm(`¿Estás seguro de que deseas eliminar a ${username} y todo su registro de capturas?`)) {
+        if (confirm(`¿Eliminar a ${showcaseData[idx].name} y todos sus datos?`)) {
             showcaseData.splice(idx, 1);
-            saveAll();
-            renderShowcase();
-            updateUserSelect();
+            saveAll(); renderShowcase(); updateUserSelect();
         }
     }
 
-   function openModal(userIdx) {
-        // Asegurar que el índice se maneja como un número entero
+    // MODAL DEL ENTRENADOR: MUESTRA SÓLO LOS ENCUENTROS
+    function openModal(userIdx) {
         userIdx = parseInt(userIdx);
         const user = showcaseData[userIdx];
         if (!user) return;
@@ -702,6 +768,9 @@
         user.pokemons.forEach((poke, pIdx) => {
             const pCard = document.createElement('div');
             pCard.className = 'pokemon-card';
+            pCard.style.cursor = 'pointer';
+            pCard.setAttribute('onclick', `openPokemonDetailModal(${userIdx}, ${pIdx})`);
+            
             pCard.innerHTML = `
                 <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" 
                         onclick="toggleFavorite(event, ${userIdx}, ${pIdx})">
@@ -709,30 +778,51 @@
                 </button>
                 <img src="${poke.sprite}">
                 <p>${poke.name}</p>
-                <span>${poke.encounters} Enc.</span>
+                <span style="font-weight: bold; color: var(--gold);">${poke.encounters} Enc.</span>
             `;
             container.appendChild(pCard);
         });
         document.getElementById('details-modal').style.display = 'flex';
     }
 
+    // ABRIR SEGUNDO MODAL (DETALLE DETALLADO EN PRIMER PLANO)
+    function openPokemonDetailModal(userIdx, pIdx) {
+        userIdx = parseInt(userIdx);
+        pIdx = parseInt(pIdx);
+        const pokemon = showcaseData[userIdx].pokemons[pIdx];
+        if (!pokemon) return;
+
+        document.getElementById('pmodal-name').innerText = pokemon.name;
+        document.getElementById('pmodal-sprite').src = pokemon.sprite;
+        document.getElementById('pmodal-encounters').innerText = pokemon.encounters;
+        document.getElementById('pmodal-nature').innerText = pokemon.nature || 'No especificada';
+        document.getElementById('pmodal-location').innerText = pokemon.location || 'Desconocido';
+        
+        document.getElementById('pmodal-iv-atk').innerText = pokemon.ivs ? pokemon.ivs.atk : '?';
+        document.getElementById('pmodal-iv-def').innerText = pokemon.ivs ? pokemon.ivs.def : '?';
+        document.getElementById('pmodal-iv-hp').innerText = pokemon.ivs ? pokemon.ivs.hp : '?';
+
+        document.getElementById('pokemon-detail-modal').style.display = 'flex';
+    }
+
+    function closePokemonModal() {
+        document.getElementById('pokemon-detail-modal').style.display = 'none';
+    }
+
+    // ALTERNAR FAVORITOS CORREGIDO CON PARSEINT Y STOPPROPAGATION ESTRICTO
     function toggleFavorite(event, userIdx, pIdx) {
-        // 1. Detener por completo cualquier acción o propagación en el DOM
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
-        
         userIdx = parseInt(userIdx);
         pIdx = parseInt(pIdx);
 
-        // 2. Modificar el estado del favorito mapeando el array con seguridad
         if (showcaseData[userIdx] && showcaseData[userIdx].pokemons) {
             showcaseData[userIdx].pokemons.forEach((p, i) => {
                 p.isFavorite = (i === pIdx) ? !p.isFavorite : false;
             });
             
-            // 3. Guardar en localStorage, actualizar la rejilla principal y refrescar el modal
             saveAll();
             renderShowcase();
             openModal(userIdx);
@@ -754,7 +844,7 @@
         });
     });
 
-    // --- INICIALIZACIÓN AL CARGAR ---
+    // --- INICIALIZACIÓN ---
     window.onload = () => { 
         renderGym(); 
         renderBerry(); 
