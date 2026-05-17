@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeMMO Ultimate Toolkit v4.3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #161925;
+            --card: #1e2132;
+            --accent: #ff4757;
+            --blue: #3498db;
+            --gold: #f1c40f;
+            --red: #e74c3c;
+            --green: #2ecc71;
+            --text: #f1f2f6;
+
+            /* --- SHOWCASE SPECIFIC VARIABLES --- */
+            --bg-surface: rgba(15, 20, 16, 0.75);
+            --bg-surface-hover: rgba(25, 33, 27, 0.85);
+            --bg-input: rgba(5, 8, 6, 0.7);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --showcase-accent: #ffcc00;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            color: var(--text); 
+            margin: 0;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            
+            /* --- FONDO ANIMADO CLARO (image_9.png) --- */
+            background-image: url('image_9.png');
+            background-size: auto 100%;
+            background-repeat: repeat-x;
+            background-attachment: fixed;
+            animation: moveBackground 50s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            from { background-position: 0 0; }
+            to { background-position: 100% 0; }
+        }
+
+        /* --- SISTEMA DE ALERTAS --- */
+        #alert-container {
+            width: 100%;
+            max-width: 700px;
+            position: fixed;
+            top: 70px;
+            z-index: 2000;
+        }
+        .alert-banner {
+            background: var(--accent);
+            color: white;
+            padding: 15px;
+            margin: 5px 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            animation: pulseAlert 1.5s infinite;
+        }
+        @keyframes pulseAlert {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); background: #c0392b; }
+            100% { transform: scale(1); }
+        }
+        .btn-stop {
+            background: white;
+            color: var(--red);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* --- NAVEGACIÓN Y PANELES --- */
+        nav.main-nav {
+            width: 100%;
+            background: #161925;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 0;
+            border-bottom: 2px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-link {
+            background: none; border: none; color: #888; font-size: 1em;
+            font-weight: bold; cursor: pointer; padding: 8px 16px; border-radius: 5px; transition: 0.3s;
+        }
+
+        .nav-link.active { color: white; background: var(--accent); }
+        .nav-link.showcase-tab-accent.active { background: var(--showcase-accent); color: #000; }
+
+        .system-panel {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 660px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-container {
+            width: 100%; max-width: 700px; padding: 20px; display: none; animation: fadeIn 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .section-container.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- CARDS Y TABS --- */
+        .card { background: var(--card); padding: 25px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        .tabs-header { display: flex; gap: 5px; margin-bottom: -1px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { background: #333; border: none; color: #888; padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; min-width: 100px; white-space: nowrap; }
+        .tab-btn.active { background: var(--card); color: var(--gold); border-top: 3px solid var(--gold); font-weight: bold; }
+        
+        /* --- TIMERS Y BOTONES --- */
+        .timer-display { font-family: 'Courier New', monospace; font-size: 2.5em; color: var(--gold); text-align: center; margin: 15px 0; }
+        .grid-timers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .time-box { text-align: center; padding: 15px; background: #121212; border-radius: 8px; border-bottom: 3px solid var(--blue); }
+        
+        .calc-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; 
+            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; border: 1px solid #444;
+        }
+
+        select, input { 
+            width: 100%; padding: 12px; background: #121212; border: 1px solid #444; 
+            color: white; border-radius: 8px; font-size: 1em; outline: none; box-sizing: border-box;
+        }
+        
+        .btn-main { 
+            background: var(--accent); color: white; border: none; padding: 18px; 
+            width: 100%; font-size: 1.1em; font-weight: bold; border-radius: 8px; 
+            cursor: pointer; margin-top: 10px; transition: 0.2s;
+        }
+        .btn-main:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+
+        /* --- HISTORIAL --- */
+        .history { margin-top: 15px; background: #121212; padding: 10px; border-radius: 8px; border: 1px solid #222; max-height: 250px; overflow-y: auto; }
+        .log-item { padding: 12px; border-bottom: 1px solid #333; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+        .log-item:hover { background: rgba(255,255,255,0.05); }
+        .del-log { color: var(--red); font-weight: bold; cursor: pointer; padding: 5px 10px; background: rgba(231, 76, 60, 0.1); border-radius: 4px; }
+        .warning-text { color: var(--accent); font-size: 0.85em; font-weight: bold; display: block; }
+
+        /* ==========================================================================
+           --- ESTILOS DE SHINY SHOWCASE ---
+           ========================================================================= */
+        .section-container#showcase-section { max-width: 1100px; width: 100%; }
+        
+        .showcase-header { text-align: center; margin-bottom: 30px; }
+        .showcase-header h1 { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #161920; text-shadow: 0 2px 4px rgba(255,255,255,0.4); }
+        
+        .admin-section {
+            background-color: var(--bg-surface);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; }
+        .admin-header .panel-title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        
+        .btn-toggle {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .btn-toggle:hover { background-color: rgba(255, 255, 255, 0.05); border-color: var(--text-muted); }
+
+        #admin-content { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+        
+        .showcase-tabs-nav { display: flex; gap: 6px; margin-bottom: 24px; background: rgba(0, 0, 0, 0.3); padding: 4px; border-radius: var(--radius-md); width: fit-content; }
+        .showcase-tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 16px; font-weight: 600; font-size: 0.85rem; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .showcase-tab-btn:hover { color: var(--text-main); }
+        .showcase-tab-btn.active { background-color: rgba(255, 255, 255, 0.08); color: var(--showcase-accent); }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: flex-end; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .form-group input[type="text"], 
+        .form-group input[type="number"],
+        .form-group select { 
+            background-color: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: var(--radius-md); outline: none; font-size: 0.9rem; transition: all 0.2s ease;
+        }
+        .form-group input[type="file"] { color: var(--text-muted); font-size: 0.85rem; }
+        .form-group input[type="file"]::-webkit-file-upload-button { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; padding: 6px 12px; cursor: pointer; margin-right: 10px; transition: all 0.2s; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--showcase-accent); box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.1); }
+        
+        .btn-showcase-submit { background-color: var(--showcase-accent); color: #000; border: none; padding: 13px 20px; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(255, 204, 0, 0.15); }
+        .btn-showcase-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(255, 204, 0, 0.25); }
+
+        .search-box { margin-bottom: 35px; }
+        .search-box input { width: 100%; background-color: var(--bg-surface); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border); color: var(--text-main); padding: 14px 20px; border-radius: var(--radius-lg); outline: none; font-size: 1rem; transition: all 0.2s; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+        .search-box input:focus { border-color: var(--showcase-accent); }
+
+        .showcase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .member-card { background-color: var(--bg-surface); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); }
+        .member-card:hover { transform: translateY(-4px); border-color: var(--showcase-accent); background-color: var(--bg-surface-hover); }
+        
+        .delete-user-btn { position: absolute; top: 14px; right: 14px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.95rem; transition: color 0.2s; z-index: 5; }
+        .delete-user-btn:hover { color: var(--danger); }
+
+        .avatar-container { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 auto 16px; width: 100%; min-height: 90px; }
+        .trainer-avatar { width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .trainer-avatar img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+        .buddy-sprite { width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; pointer-events: none; }
+        .buddy-sprite img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+        
+        .badge-count { background-color: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--showcase-accent); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+        /* --- Modales --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background-color: #121614; border: 1px solid var(--border); border-radius: var(--radius-lg); width: 92%; max-width: 640px; padding: 30px; position: relative; max-height: 85vh; overflow-y: auto; color: var(--text-main); }
+        .shiny-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; background-color: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius-md); }
+        
+        .pokemon-card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; text-align: center; position: relative; transition: 0.2s; }
+        .pokemon-card:hover { border-color: var(--showcase-accent); background: var(--bg-surface-hover); }
+        
+        .fav-btn { position: absolute; top: 5px; left: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: color 0.2s; z-index: 10; }
+        .fav-btn.active { color: var(--showcase-accent); }
+
+        .delete-poke-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; transition: color 0.2s; z-index: 10; }
+        .delete-poke-btn:hover { color: var(--danger); }
+
+        .pokemon-card img { width: 56px; height: 56px; object-fit: contain; image-rendering: pixelated; }
+        .pokemon-card p { font-size: 0.75rem; font-weight: 700; margin-top: 4px; padding: 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pokemon-card span { font-size: 0.7rem; color: var(--text-muted); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div id="alert-container"></div>
+
+<nav class="main-nav">
+    <button class="nav-link active" onclick="showSection('gym-section', this)">🏆 Gyms</button>
+    <button class="nav-link" onclick="showSection('berry-section', this)">🍓 Bayas</button>
+    <button class="nav-link showcase-tab-accent" onclick="showSection('showcase-section', this)">✨ ShowCase</button>
+</nav>
+
+<div class="system-panel" id="global-system-panel">
+    <span>⚙️ <b>Control de Alarmas:</b></span>
+    <button onclick="triggerAlarm('test', '🚨 PRUEBA DE SONIDO Y VISUAL')" style="background: var(--blue); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Probar Alarma</button>
+</div>
+
+<div id="gym-section" class="section-container active">
+    <div class="card">
+        <h2 style="text-align:center; color: var(--gold); margin-top:0;">Gimnasios (Cooldown 18h)</h2>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+            <input type="text" id="newCharGym" placeholder="Nombre del personaje...">
+            <button onclick="addGymChar()" style="background:var(--green); border:none; padding:0 20px; border-radius:8px; cursor:pointer; font-weight:bold; color:white;">+</button>
+        </div>
+        <div class="tabs-header" id="gymTabs"></div>
+        <div id="gymContent" style="margin-top:20px;"></div>
+    </div>
+</div>
+
+<div id="berry-section" class="section-container">
+    <div class="card">
+        <h2 style="text-align:center; color: var(--blue); margin-top:0;">Cultivo de Bayas</h2>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+            <input type="text" id="newCharBerry" placeholder="Nombre de la cuenta...">
+            <button onclick="addBerryChar()" style="background:var(--green); border:none; padding:0 20px; border-radius:8px; cursor:pointer; font-weight:bold; color:white;">+</button>
+        </div>
+        <div class="tabs-header" id="berryTabs"></div>
+        <div id="berryContent" style="margin-top:20px;"></div>
+    </div>
+</div>
+
+<div id="showcase-section" class="section-container">
+    <div class="showcase-header">
+        <h1>Shiny Showcase</h1>
+    </div>
+
+    <section class="admin-section">
+        <div class="admin-header">
+            <div class="panel-title"><i class="fa-solid fa-sliders"></i> Panel de Gestión</div>
+            <button class="btn-toggle" onclick="toggleAdminPanel()" id="toggle-btn">Mostrar Formularios</button>
+        </div>
+        <div id="admin-content" style="display: none;">
+            <div class="showcase-tabs-nav">
+                <button class="showcase-tab-btn active" id="tab-prof" onclick="switchShowcaseTab('profile')">Nuevo Entrenador</button>
+                <button class="showcase-tab-btn" id="tab-poke" onclick="switchShowcaseTab('pokemon')">Registrar Pokémon</button>
+            </div>
+            
+            <form id="profile-form" class="form-grid">
+                <div class="form-group">
+                    <label>Nombre del Entrenador</label>
+                    <input type="text" id="reg-username" placeholder="Ej. Red" required>
+                </div>
+                <div class="form-group">
+                    <label>Avatar / Sprite</label>
+                    <input type="file" id="reg-avatar" accept="image/*">
+                </div>
+                <button type="submit" class="btn-showcase-submit">Guardar Perfil</button>
+            </form>
+
+            <form id="pokemon-form" class="form-grid" style="display: none;">
+                <div class="form-group">
+                    <label>Seleccionar Entrenador</label>
+                    <select id="poke-user-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Especie Pokémon</label>
+                    <input type="text" id="poke-name" placeholder="Ej. Darkrai, Charizard" required>
+                </div>
+                <div class="form-group">
+                    <label>Naturaleza</label>
+                    <select id="poke-nature">
+                        <option value="Activa (Hasty) [+Vel / -Def]">Activa (Hasty) [+Vel / -Def]</option>
+                        <option value="Afable (Mild) [+AtqSp / -Def]">Afable (Mild) [+AtqSp / -Def]</option>
+                        <option value="Agitada (Impish) [+Def / -AtqSp]">Agitada (Impish) [+Def / -AtqSp]</option>
+                        <option value="Alegre (Jolly) [+Vel / -AtqSp]">Alegre (Jolly) [+Vel / -AtqSp]</option>
+                        <option value="Alocada (Rash) [+AtqSp / -DefSp]">Alocada (Rash) [+AtqSp / -DefSp]</option>
+                        <option value="Amable (Gentle) [+DefSp / -Def]">Amable (Gentle) [+DefSp / -Def]</option>
+                        <option value="Audaz (Brave) [+Atq / -Vel]">Audaz (Brave) [+Atq / -Vel]</option>
+                        <option value="Cauta (Careful) [+DefSp / -AtqSp]">Cauta (Careful) [+DefSp / -AtqSp]</option>
+                        <option value="Dócil (Docile) [Neutro]">Dócil (Docile) [Neutro]</option>
+                        <option value="Firme (Adamant) [+Atq / -AtqSp]" selected>Firme (Adamant) [+Atq / -AtqSp]</option>
+                        <option value="Floja (Lax) [+Def / -DefSp]">Floja (Lax) [+Def / -DefSp]</option>
+                        <option value="Grosera (Sassy) [+DefSp / -Vel]">Grosera (Sassy) [+DefSp / -Vel]</option>
+                        <option value="Huraña (Lonely) [+Atq / -Def]">Huraña (Lonely) [+Atq / -Def]</option>
+                        <option value="Ingenua (Naive) [+Vel / -DefSp]">Ingenua (Naive) [+Vel / -DefSp]</option>
+                        <option value="Mansalva (Quiet) [+AtqSp / -Vel]">Mansalva (Quiet) [+AtqSp / -Vel]</option>
+                        <option value="Miedosa (Timid) [+Vel / -Atq]">Miedosa (Timid) [+Vel / -Atq]</option>
+                        <option value="Modesta (Modest) [+AtqSp / -Atq]">Modesta (Modest) [+AtqSp / -Atq]</option>
+                        <option value="Osada (Bold) [+Def / -Atq]">Osada (Bold) [+Def / -Atq]</option>
+                        <option value="Plácida (Relaxed) [+Def / -Vel]">Plácida (Relaxed) [+Def / -Vel]</option>
+                        <option value="Pícara (Naughty) [+Atq / -DefSp]">Pícara (Naughty) [+Atq / -DefSp]</option>
+                        <option value="Rara (Quirky) [Neutro]">Rara (Quirky) [Neutro]</option>
+                        <option value="Seria (Serious) [Neutro]">Seria (Serious) [Neutro]</option>
+                        <option value="Serena (Calm) [+DefSp / -Atq]">Serena (Calm) [+DefSp / -Atq]</option>
+                        <option value="Tímida (Bashful) [Neutro]">Tímida (Bashful) [Neutro]</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ruta / Sitio de Encuentro</label>
+                    <input type="text" id="poke-location" placeholder="Ej. Ruta 210, Calle Victoria">
+                </div>
+                <div class="form-group">
+                    <label>Encuentros / Huevos</label>
+                    <input type="number" id="poke-encounters" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>Sprite Shiny</label>
+                    <input type="text" style="opacity: 0.6; font-size: 0.85em;" value="✨ Animación Showdown Activa" disabled>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>IVs del Pokémon (PS / Ataque / Defensa / At. Especial / Def. Especial / Velocidad)</label>
+                    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;">
+                        <input type="number" id="poke-iv-hp" placeholder="PS" min="0" max="31">
+                        <input type="number" id="poke-iv-atk" placeholder="Atq" min="0" max="31">
+                        <input type="number" id="poke-iv-def" placeholder="Def" min="0" max="31">
+                        <input type="number" id="poke-iv-spatk" placeholder="SpA" min="0" max="31">
+                        <input type="number" id="poke-iv-spdef" placeholder="SpD" min="0" max="31">
+                        <input type="number" id="poke-iv-speed" placeholder="Vel" min="0" max="31">
+                    </div>
+                </div>
+                <button type="submit" class="btn-showcase-submit" style="grid-column: span 2;">Añadir Shiny</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="search-box">
+        <input type="text" id="search-name" placeholder="Buscar entrenador por nombre...">
+    </section>
+
+    <section class="showcase-grid" id="showcase-members-grid"></section>
+</div>
+
+<div class="modal-overlay" id="details-modal">
+    <div class="modal-content">
+        <button class="btn-toggle" style="position:absolute; top:20px; right:20px;" onclick="closeModal()">Cerrar</button>
+        <h2 id="modal-member-name" style="margin-bottom:20px; color: var(--showcase-accent)">Entrenador</h2>
+        <div class="shiny-grid" id="container-shinys-activos"></div>
+    </div>
+</div>
+
+<div id="pokemon-detail-modal" class="modal-overlay" style="display: none; z-index: 3000;">
+    <div class="modal-content" style="max-width: 400px; text-align: center; position: relative;">
+        <button class="btn-toggle" style="position: absolute; top: 15px; right: 15px; padding: 4px 10px;" onclick="closePokemonModal()">×</button>
+        <h2 id="pmodal-name" style="color: var(--gold); margin-bottom: 5px;">---</h2>
+        
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin: 15px 0; display: flex; justify-content: center; align-items: center;">
+            <img id="pmodal-sprite" src="" style="width: 110px; height: 110px; object-fit: contain; image-rendering: pixelated;">
+        </div>
+
+        <div style="text-align: left; background: var(--bg-input); padding: 15px; border-radius: 8px; font-size: 0.95em;">
+            <p style="margin: 6px 0;">✨ <b>Encuentros:</b> <span id="pmodal-encounters" style="color: var(--text-main);">0</span></p>
+            <p style="margin: 6px 0;">🌸 <b>Naturaleza:</b> <span id="pmodal-nature" style="color: var(--text-main);">---</span></p>
+            <p style="margin: 6px 0;">🗺️ <b>Lugar:</b> <span id="pmodal-location" style="color: var(--text-main);">---</span></p>
+            <p style="margin: 6px 0; border-top: 1px solid #444; padding-top: 8px; font-weight: bold; color: var(--text-muted)">📊 IVs COMPLETOS:</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 5px; color: var(--showcase-accent); font-weight: bold; font-family: monospace; margin-top: 4px;">
+                <span>❤️ PS: <span id="pmodal-iv-hp">0</span></span>
+                <span>⚔️ ATQ: <span id="pmodal-iv-atk">0</span></span>
+                <span>🛡️ DEF: <span id="pmodal-iv-def">0</span></span>
+                <span>🔮 SPA: <span id="pmodal-iv-spatk">0</span></span>
+                <span>🔰 SPD: <span id="pmodal-iv-spdef">0</span></span>
+                <span>⚡ VEL: <span id="pmodal-iv-speed">0</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATOS GLOBALES ---
+    let gymChars = JSON.parse(localStorage.getItem('pmmo_gym_v12')) || [];
+    let berryChars = JSON.parse(localStorage.getItem('pmmo_berry_v12')) || [];
+    let showcaseData = JSON.parse(localStorage.getItem('medShowcaseData')) || [];
+    
+    let activeGymTab = 0;
+    let activeBerryTab = 0;
+    let activeAlerts = new Set(); 
+    let audioInterval = null;
+
+    const BASE_28_GYMS = 250000; 
+    const GYM_COOLDOWN = 18;
+
+    // --- SISTEMA DE ALARMAS ---
+    function playBeep() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(660, ctx.currentTime);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.2);
+        } catch(e) { console.log("Audio no iniciado"); }
+    }
+
+    function triggerAlarm(id, message) {
+        if (activeAlerts.has(id)) return;
+        activeAlerts.add(id);
+        const container = document.getElementById('alert-container');
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert-banner';
+        alertDiv.id = `alert-${id}`;
+        alertDiv.innerHTML = `<span><b>${message}</b></span><button class="btn-stop" onclick="stopAlarm('${id}')">PARAR</button>`;
+        container.appendChild(alertDiv);
+        if (!audioInterval) { playBeep(); audioInterval = setInterval(playBeep, 3000); }
+    }
+
+    function stopAlarm(id) {
+        activeAlerts.delete(id);
+        const el = document.getElementById(`alert-${id}`);
+        if (el) el.remove();
+        if (activeAlerts.size === 0) { clearInterval(audioInterval); audioInterval = null; }
+    }
+
+    function checkNotifications() {
+        const ahora = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        berryChars.forEach((char, index) => {
+            if (char.nextWater === ahora && !activeAlerts.has(`${index}-water`)) {
+                triggerAlarm(`${index}-water`, `💧 Toca REGAR en: ${char.name}`);
+            }
+            if (char.nextHarvest === ahora && !activeAlerts.has(`${index}-harvest`)) {
+                triggerAlarm(`${index}-harvest`, `🍓 Toca COSECHAR en: ${char.name}`);
+            }
+        });
+    }
+
+    // --- HISTORIAL ---
+    function selectBerryLog(charIdx, logIdx) {
+        const log = berryChars[charIdx].logs[logIdx];
+        berryChars[charIdx].nextWater = log.riego || '--:--';
+        berryChars[charIdx].nextHarvest = log.cosecha;
+        saveAll();
+        renderBerry();
+    }
+
+    // --- FUNCIONES GIMNASIOS ---
+    function addGymChar() {
+        const name = document.getElementById('newCharGym').value.trim();
+        if(name) {
+            gymChars.push({name, nextAvailable:0, multiplier:1.75, itemCost:20000});
+            document.getElementById('newCharGym').value='';
+            saveAll(); renderGym();
+        }
+    }
+
+    function startGymRun(i) {
+        gymChars[i].nextAvailable = Date.now() + (GYM_COOLDOWN * 60 * 60 * 1000);
+        saveAll(); renderGym();
+    }
+
+    function updateGymCalc(i) {
+        gymChars[i].multiplier = parseFloat(document.getElementById(`mult-${i}`).value);
+        gymChars[i].itemCost = parseFloat(document.getElementById(`cost-${i}`).value) || 0;
+        saveAll();
+        const neto = (BASE_28_GYMS * gymChars[i].multiplier) - gymChars[i].itemCost;
+        document.getElementById(`neto-${i}`).innerText = new Intl.NumberFormat('es-ES').format(Math.floor(neto)) + " ¥";
+    }
+
+    function renderGym() {
+        const tabs = document.getElementById('gymTabs');
+        const content = document.getElementById('gymContent');
+        if (!tabs || !content) return;
+        tabs.innerHTML = ''; content.innerHTML = '';
+        gymChars.forEach((char, i) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${i === activeGymTab ? 'active' : ''}`;
+            btn.innerText = char.name;
+            btn.onclick = () => { activeGymTab = i; renderGym(); };
+            tabs.appendChild(btn);
+            if (i === activeGymTab) {
+                const neto = (BASE_28_GYMS * char.multiplier) - char.itemCost;
+                content.innerHTML = `
+                    <div class="timer-display" id="gtimer-${i}">--:--:--</div>
+                    <div class="calc-grid">
+                        <div><small>POTENCIADOR</small>
+                            <select id="mult-${i}" onchange="updateGymCalc(${i})">
+                                <option value="1.5" ${char.multiplier == 1.5 ? 'selected' : ''}>50%</option>
+                                <option value="1.75" ${char.multiplier == 1.75 ? 'selected' : ''}>75%</option>
+                                <option value="2.0" ${char.multiplier == 2.0 ? 'selected' : ''}>100%</option>
+                            </select>
+                        </div>
+                        <div><small>GASTO ITEMS</small>
+                            <input type="number" id="cost-${i}" value="${char.itemCost}" oninput="updateGymCalc(${i})">
+                        </div>
+                        <div style="grid-column: span 2; text-align:center; padding-top:10px;">
+                            <span style="color:var(--green); font-weight:bold; font-size:1.4em;" id="neto-${i}">${new Intl.NumberFormat('es-ES').format(Math.floor(neto))} ¥</span>
+                        </div>
+                    </div>
+                    <button class="btn-main" id="gbtn-${i}" onclick="startGymRun(${i})">INICIAR RUTA</button>
+                    <button onclick="deleteChar('gym', ${i})" style="width:100%; background:none; border:none; color:var(--red); margin-top:15px; cursor:pointer; font-size:0.8em; opacity:0.5;">Eliminar Personaje</button>
+                `;
+            }
+        });
+    }
+
+    // --- FUNCIONES BAYAS ---
+    function addBerryChar() {
+        const name = document.getElementById('newCharBerry').value.trim();
+        if(name) {
+            berryChars.push({name, nextWater:'', nextHarvest:'', logs:[]});
+            document.getElementById('newCharBerry').value='';
+            saveAll(); renderBerry();
+        }
+    }
+
+    function startBerryCycle(i) {
+        const tipo = document.getElementById(`berryType-${i}`).value;
+        const ahora = new Date();
+        const isZanama = tipo === "Zanama";
+        const waterMin = isZanama ? 570 : 300; 
+        const harvestHr = isZanama ? 20 : 16;
+        const fWater = new Date(ahora.getTime() + waterMin * 60000);
+        const fHarvest = new Date(ahora.getTime() + harvestHr * 3600000);
+        const fMax = new Date(fHarvest.getTime() + 4 * 3600000);
+        const t = (d) => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        berryChars[i].nextWater = t(fWater);
+        berryChars[i].nextHarvest = t(fHarvest);
+        berryChars[i].logs.unshift({ tipo, fecha: ahora.toLocaleDateString(), cosecha: t(fHarvest), riego: t(fWater), maxima: t(fMax) });
+        saveAll(); renderBerry();
+    }
+
+    function renderBerry() {
+        const tabs = document.getElementById('berryTabs');
+        const content = document.getElementById('berryContent');
+        if (!tabs || !content) return;
+        tabs.innerHTML = ''; content.innerHTML = '';
+        berryChars.forEach((char, i) => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${i === activeBerryTab ? 'active' : ''}`;
+            btn.innerText = char.name;
+            btn.onclick = () => { activeBerryTab = i; renderBerry(); };
+            tabs.appendChild(btn);
+            if (i === activeBerryTab) {
+                let logsHtml = char.logs.map((l, idx) => `
+                    <div class="log-item" onclick="selectBerryLog(${i}, ${idx})">
+                        <div><b>${l.tipo}</b> <small>(${l.fecha})</small><br>
+                        <span style="color:var(--green)">Cosecha: ${l.cosecha}</span>
+                        <span class="warning-text">Límite: ${l.maxima || '--'} ⚠️</span></div>
+                        <span class="del-log" onclick="event.stopPropagation(); deleteBerryLog(${i}, ${idx})">×</span>
+                    </div>`).join('');
+                content.innerHTML = `
+                    <div class="grid-timers">
+                        <div class="time-box"><small>PRÓX. RIEGO</small><br><b style="color:var(--blue)">${char.nextWater || '--:--'}</b></div>
+                        <div class="time-box"><small>COSECHA</small><br><b style="color:var(--green)">${char.nextHarvest || '--:--'}</b></div>
+                    </div>
+                    <select id="berryType-${i}"><option value="Extractora">Extractora (16h)</option><option value="Zanama">Zanama (20h)</option></select>
+                    <button class="btn-main" style="background:var(--blue)" onclick="startBerryCycle(${i})">🌱 REGISTRAR PLANTADO</button>
+                    <div class="history">${logsHtml || '<p style="text-align:center; opacity:0.5;">Sin registros</p>'}</div>
+                    <button onclick="deleteChar('berry', ${i})" style="width:100%; background:none; border:none; color:var(--red); margin-top:15px; cursor:pointer; font-size:0.8em; opacity:0.5;">Eliminar Cuenta</button>
+                `;
+            }
+        });
+    }
+
+    function deleteBerryLog(charIdx, logIdx) {
+        berryChars[charIdx].logs.splice(logIdx, 1);
+        saveAll(); renderBerry();
+    }
+
+    function deleteChar(type, i) {
+        if(!confirm('¿Seguro?')) return;
+        if(type === 'gym') { gymChars.splice(i,1); activeGymTab = 0; renderGym(); }
+        else { berryChars.splice(i,1); activeBerryTab = 0; renderBerry(); }
+        saveAll();
+    }
+
+    // --- NAVEGACIÓN GENERAL ---
+    function showSection(id, btn) {
+        document.querySelectorAll('.section-container').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        
+        const sysPanel = document.getElementById('global-system-panel');
+        if (id === 'showcase-section') { sysPanel.style.display = 'none'; } 
+        else { sysPanel.style.display = 'flex'; }
+    }
+
+    function saveAll() {
+        localStorage.setItem('pmmo_gym_v12', JSON.stringify(gymChars));
+        localStorage.setItem('pmmo_berry_v12', JSON.stringify(berryChars));
+        localStorage.setItem('medShowcaseData', JSON.stringify(showcaseData));
+    }
+
+    function updateTick() {
+        gymChars.forEach((char, i) => {
+            const el = document.getElementById(`gtimer-${i}`);
+            const btn = document.getElementById(`gbtn-${i}`);
+            if (!el) return;
+            const diff = char.nextAvailable - Date.now();
+            if (diff <= 0) { el.innerHTML = '<span style="color:var(--green)">¡LISTO!</span>'; if(btn) btn.disabled = false; } 
+            else {
+                const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+                el.innerText = `${h}h ${m}m ${s}s`;
+                if(btn) btn.disabled = true;
+            }
+        });
+        checkNotifications();
+    }
+
+    // ==========================================================================
+    // --- LÓGICA DE SHINY SHOWCASE ---
+    // ==========================================================================
+    function toggleAdminPanel() {
+        const content = document.getElementById('admin-content');
+        const btn = document.getElementById('toggle-btn');
+        content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        btn.textContent = content.style.display === 'none' ? 'Mostrar Formularios' : 'Ocultar Formularios';
+    }
+
+    function switchShowcaseTab(tab) {
+        document.getElementById('profile-form').style.display = tab === 'profile' ? 'grid' : 'none';
+        document.getElementById('pokemon-form').style.display = tab === 'pokemon' ? 'grid' : 'none';
+        document.getElementById('tab-prof').classList.toggle('active', tab === 'profile');
+        document.getElementById('tab-poke').classList.toggle('active', tab === 'pokemon');
+    }
+
+    async function convertImage(fileElement) {
+        const file = fileElement.files[0];
+        if (!file) return null;
+        return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    document.getElementById('profile-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const avatar = await convertImage(document.getElementById('reg-avatar'));
+        showcaseData.push({
+            name: document.getElementById('reg-username').value,
+            avatar: avatar || "https://img.pokemondb.net/sprites/trainers/emerald/red.png",
+            pokemons: []
+        });
+        saveAll(); renderShowcase(); updateUserSelect(); this.reset();
+    });
+
+    document.getElementById('pokemon-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let rawName = document.getElementById('poke-name').value.trim();
+        if (!rawName) return;
+        
+        let pokeNameLower = rawName.toLowerCase().replace(/\s+/g, '');
+        const userIdx = parseInt(document.getElementById('poke-user-select').value);
+        
+        const animatedSpriteURL = `https://play.pokemonshowdown.com/sprites/ani-shiny/${pokeNameLower}.gif`;
+
+        if (showcaseData[userIdx]) {
+            showcaseData[userIdx].pokemons.push({
+                name: rawName.charAt(0).toUpperCase() + rawName.slice(1),
+                sprite: animatedSpriteURL,
+                encounters: document.getElementById('poke-encounters').value || 0,
+                nature: document.getElementById('poke-nature').value,
+                location: document.getElementById('poke-location').value.trim() || 'Desconocido',
+                ivs: {
+                    hp: document.getElementById('poke-iv-hp').value || '?',
+                    atk: document.getElementById('poke-iv-atk').value || '?',
+                    def: document.getElementById('poke-iv-def').value || '?',
+                    spatk: document.getElementById('poke-iv-spatk').value || '?',
+                    spdef: document.getElementById('poke-iv-spdef').value || '?',
+                    speed: document.getElementById('poke-iv-speed').value || '?'
+                },
+                isFavorite: false
+            });
+
+            saveAll();
+            renderShowcase();
+            this.reset();
+            toggleAdminPanel();
+        }
+    });
+
+    function renderShowcase() {
+        const grid = document.getElementById('showcase-members-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        showcaseData.forEach((user, idx) => {
+            const favorite = user.pokemons.find(p => p.isFavorite);
+            const card = document.createElement('div');
+            card.className = 'member-card';
+            card.onclick = () => openModal(idx);
+            card.innerHTML = `
+                <button class="delete-user-btn" onclick="deleteUser(event, ${idx})" title="Eliminar Entrenador">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <div class="avatar-container">
+                    <div class="trainer-avatar"><img src="${user.avatar}"></div>
+                    ${favorite ? `<div class="buddy-sprite"><img src="${favorite.sprite}"></div>` : ''}
+                </div>
+                <h3 style="color:var(--text-main); font-size:1.2em;">${user.name}</h3>
+                <div style="margin-top: 8px;"><span class="badge-count">Shinys: ${user.pokemons.length}</span></div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function deleteUser(event, idx) {
+        event.stopPropagation();
+        if (confirm(`¿Eliminar a ${showcaseData[idx].name} y todos sus datos?`)) {
+            showcaseData.splice(idx, 1);
+            saveAll(); renderShowcase(); updateUserSelect();
+        }
+    }
+
+    function openModal(userIdx) {
+        userIdx = parseInt(userIdx);
+        const user = showcaseData[userIdx];
+        if (!user) return;
+
+        document.getElementById('modal-member-name').innerText = user.name;
+        const container = document.getElementById('container-shinys-activos');
+        container.innerHTML = '';
+        
+        user.pokemons.forEach((poke, pIdx) => {
+            const pCard = document.createElement('div');
+            pCard.className = 'pokemon-card';
+            pCard.style.cursor = 'pointer';
+            pCard.setAttribute('onclick', `openPokemonDetailModal(${userIdx}, ${pIdx})`);
+            
+            pCard.innerHTML = `
+                <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" 
+                        onclick="toggleFavorite(event, ${userIdx}, ${pIdx})">
+                    <i class="fa-${poke.isFavorite ? 'solid' : 'regular'} fa-star"></i>
+                </button>
+                <button class="delete-poke-btn" onclick="deletePokemon(event, ${userIdx}, ${pIdx})" title="Eliminar Pokémon">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <img src="${poke.sprite}">
+                <p>${poke.name}</p>
+                <span style="font-weight: bold; color: var(--gold);">${poke.encounters} Enc.</span>
+            `;
+            container.appendChild(pCard);
+        });
+        document.getElementById('details-modal').style.display = 'flex';
+    }
+
+    function deletePokemon(event, userIdx, pIdx) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        userIdx = parseInt(userIdx);
+        pIdx = parseInt(pIdx);
+
+        const pokemonName = showcaseData[userIdx].pokemons[pIdx].name;
+        if (confirm(`¿Estás seguro de eliminar a este ${pokemonName} shiny?`)) {
+            showcaseData[userIdx].pokemons.splice(pIdx, 1);
+            saveAll();
+            renderShowcase();
+            openModal(userIdx);
+        }
+    }
+
+    function openPokemonDetailModal(userIdx, pIdx) {
+        userIdx = parseInt(userIdx);
+        pIdx = parseInt(pIdx);
+        const pokemon = showcaseData[userIdx].pokemons[pIdx];
+        if (!pokemon) return;
+
+        document.getElementById('pmodal-name').innerText = pokemon.name;
+        document.getElementById('pmodal-sprite').src = pokemon.sprite;
+        document.getElementById('pmodal-encounters').innerText = pokemon.encounters;
+        document.getElementById('pmodal-nature').innerText = pokemon.nature || 'No especificada';
+        document.getElementById('pmodal-location').innerText = pokemon.location || 'Desconocido';
+        
+        // Mapear los IVs asegurando retrocompatibilidad por si faltara alguno antiguo
+        const ivs = pokemon.ivs || { hp: '?', atk: '?', def: '?', spatk: '?', spdef: '?', speed: '?' };
+        document.getElementById('pmodal-iv-hp').innerText = ivs.hp || '?';
+        document.getElementById('pmodal-iv-atk').innerText = ivs.atk || '?';
+        document.getElementById('pmodal-iv-def').innerText = ivs.def || '?';
+        document.getElementById('pmodal-iv-spatk').innerText = ivs.spatk || '?';
+        document.getElementById('pmodal-iv-spdef').innerText = ivs.spdef || '?';
+        document.getElementById('pmodal-iv-speed').innerText = ivs.speed || '?';
+
+        document.getElementById('pokemon-detail-modal').style.display = 'flex';
+    }
+
+    function closePokemonModal() {
+        document.getElementById('pokemon-detail-modal').style.display = 'none';
+    }
+
+    function toggleFavorite(event, userIdx, pIdx) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        userIdx = parseInt(userIdx);
+        pIdx = parseInt(pIdx);
+
+        if (showcaseData[userIdx] && showcaseData[userIdx].pokemons) {
+            showcaseData[userIdx].pokemons.forEach((p, i) => {
+                p.isFavorite = (i === pIdx) ? !p.isFavorite : false;
+            });
+            
+            saveAll();
+            renderShowcase();
+            openModal(userIdx);
+        }
+    }
+
+    function updateUserSelect() {
+        const select = document.getElementById('poke-user-select');
+        if (!select) return;
+        select.innerHTML = showcaseData.map((u, i) => `<option value="${i}">${u.name}</option>`).join('');
+    }
+
+    function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
+    
+    document.getElementById('search-name').addEventListener('input', function() {
+        const val = this.value.toLowerCase();
+        document.querySelectorAll('.member-card').forEach(c => {
+            c.classList.toggle('hidden', !c.querySelector('h3').innerText.toLowerCase().includes(val));
+        });
+    });
+
+    window.onload = () => { 
+        renderGym(); 
+        renderBerry(); 
+        renderShowcase();
+        updateUserSelect();
+        setInterval(updateTick, 1000); 
+    };
+</script>
+</body>
+</html>
