@@ -697,8 +697,9 @@
         user.pokemons.forEach((poke, pIdx) => {
             const pCard = document.createElement('div');
             pCard.className = 'pokemon-card';
+            // CORRECCIÓN: Usar variables ${userIdx} y ${pIdx} numéricas reales en la plantilla HTML
             pCard.innerHTML = `
-                <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" onclick="toggleFavorite(event, userIdx, pIdx)">
+                <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" onclick="toggleFavorite(event, ${userIdx}, ${pIdx})">
                     <i class="fa-${poke.isFavorite ? 'solid' : 'regular'} fa-star"></i>
                 </button>
                 <img src="${poke.sprite}">
