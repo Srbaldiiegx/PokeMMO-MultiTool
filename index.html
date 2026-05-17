@@ -798,11 +798,13 @@
     });
 
     function renderShowcase() {
-        const grid = document.getElementById('showcase-members-grid');
+       const grid = document.getElementById('showcase-members-grid');
         if (!grid) return;
         grid.innerHTML = '';
         
-        showcaseData.forEach((user, idx) => {
+        if (!window.showcaseData) return;
+        
+        window.showcaseData.forEach((user, idx) => {
             if (!user) return;
             const pList = user.pokemons || [];
             const favorite = pList.find(p => p && p.isFavorite);
@@ -810,7 +812,6 @@
             card.className = 'member-card';
             card.onclick = () => openModal(idx);
             
-            // Texto del h3 cambiado de var(--text-main) a #1e2132 para máxima lectura
             card.innerHTML = `
                 <button class="delete-user-btn" onclick="deleteUser(event, ${idx})" title="Eliminar Entrenador">
                     <i class="fa-solid fa-trash-can"></i>
@@ -819,8 +820,8 @@
                     <div class="trainer-avatar"><img src="${user.avatar}"></div>
                     ${favorite ? `<div class="buddy-sprite"><img src="${favorite.sprite}"></div>` : ''}
                 </div>
-                <h3 style="color:#1e2132; font-size:1.2em; font-weight: bold;">${user.name}</h3>
-                <div style="margin-top: 8px;"><span class="badge-count">Shinys: ${pList.length}</span></div>
+                <h3 style="color: #ffffff; font-size:1.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${user.name}</h3>
+                <div><span class="badge-count">Shinys: ${pList.length}</span></div>
             `;
             grid.appendChild(card);
         });
