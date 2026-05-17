@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeMMO Ultimate Toolkit v4.2</title>
+    <title>PokeMMO Ultimate Toolkit v4.3</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -172,7 +172,7 @@
 
         /* ==========================================================================
            --- ESTILOS DE SHINY SHOWCASE ---
-           ========================================================================== */
+           ========================================================================= */
         .section-container#showcase-section { max-width: 1100px; width: 100%; }
         
         .showcase-header { text-align: center; margin-bottom: 30px; }
@@ -221,7 +221,7 @@
             background-color: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: var(--radius-md); outline: none; font-size: 0.9rem; transition: all 0.2s ease;
         }
         .form-group input[type="file"] { color: var(--text-muted); font-size: 0.85rem; }
-        .form-group input[type="file"]::-webkit-file-upload-button { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; padding: 6px 12px; cursor: pointer; margin-right: 10px; transition: all 0.2; }
+        .form-group input[type="file"]::-webkit-file-upload-button { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; padding: 6px 12px; cursor: pointer; margin-right: 10px; transition: all 0.2s; }
         .form-group input:focus, .form-group select:focus { border-color: var(--showcase-accent); box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.1); }
         
         .btn-showcase-submit { background-color: var(--showcase-accent); color: #000; border: none; padding: 13px 20px; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(255, 204, 0, 0.15); }
@@ -257,7 +257,6 @@
         .fav-btn { position: absolute; top: 5px; left: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: color 0.2s; z-index: 10; }
         .fav-btn.active { color: var(--showcase-accent); }
 
-        /* Botón de eliminación del Pokémon individual */
         .delete-poke-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; transition: color 0.2s; z-index: 10; }
         .delete-poke-btn:hover { color: var(--danger); }
 
@@ -347,14 +346,31 @@
                 <div class="form-group">
                     <label>Naturaleza</label>
                     <select id="poke-nature">
-                        <option value="Firme (Adamant)">Firme (Adamant)</option>
-                        <option value="Alegre (Jolly)">Alegre (Jolly)</option>
-                        <option value="Modesta (Modest)">Modesta (Modest)</option>
-                        <option value="Miedosa (Timid)">Miedosa (Timid)</option>
-                        <option value="Grosera (Sassy)">Grosera (Sassy)</option>
-                        <option value="Plácida (Relaxed)">Plácida (Relaxed)</option>
-                        <option value="Osada (Bold)">Osada (Bold)</option>
-                        <option value="Neutro (Serious/Hardy...)">Neutro</option>
+                        <option value="Activa (Hasty) [+Vel / -Def]">Activa (Hasty) [+Vel / -Def]</option>
+                        <option value="Afable (Mild) [+AtqSp / -Def]">Afable (Mild) [+AtqSp / -Def]</option>
+                        <option value="Agitada (Impish) [+Def / -AtqSp]">Agitada (Impish) [+Def / -AtqSp]</option>
+                        <option value="Alegre (Jolly) [+Vel / -AtqSp]">Alegre (Jolly) [+Vel / -AtqSp]</option>
+                        <option value="Alocada (Rash) [+AtqSp / -DefSp]">Alocada (Rash) [+AtqSp / -DefSp]</option>
+                        <option value="Amable (Gentle) [+DefSp / -Def]">Amable (Gentle) [+DefSp / -Def]</option>
+                        <option value="Audaz (Brave) [+Atq / -Vel]">Audaz (Brave) [+Atq / -Vel]</option>
+                        <option value="Cauta (Careful) [+DefSp / -AtqSp]">Cauta (Careful) [+DefSp / -AtqSp]</option>
+                        <option value="Dócil (Docile) [Neutro]">Dócil (Docile) [Neutro]</option>
+                        <option value="Firme (Adamant) [+Atq / -AtqSp]" selected>Firme (Adamant) [+Atq / -AtqSp]</option>
+                        <option value="Floja (Lax) [+Def / -DefSp]">Floja (Lax) [+Def / -DefSp]</option>
+                        <option value="Grosera (Sassy) [+DefSp / -Vel]">Grosera (Sassy) [+DefSp / -Vel]</option>
+                        <option value="Grosera (Sassy) [+DefSp / -Vel]">Grosera (Sassy) [+DefSp / -Vel]</option>
+                        <option value="Huraña (Lonely) [+Atq / -Def]">Huraña (Lonely) [+Atq / -Def]</option>
+                        <option value="Ingenua (Naive) [+Vel / -DefSp]">Ingenua (Naive) [+Vel / -DefSp]</option>
+                        <option value="Mansalva (Quiet) [+AtqSp / -Vel]">Mansalva (Quiet) [+AtqSp / -Vel]</option>
+                        <option value="Miedosa (Timid) [+Vel / -Atq]">Miedosa (Timid) [+Vel / -Atq]</option>
+                        <option value="Modesta (Modest) [+AtqSp / -Atq]">Modesta (Modest) [+AtqSp / -Atq]</option>
+                        <option value="Osada (Bold) [+Def / -Atq]">Osada (Bold) [+Def / -Atq]</option>
+                        <option value="Plácida (Relaxed) [+Def / -Vel]">Plácida (Relaxed) [+Def / -Vel]</option>
+                        <option value="Pícara (Naughty) [+Atq / -DefSp]">Pícara (Naughty) [+Atq / -DefSp]</option>
+                        <option value="Rara (Quirky) [Neutro]">Rara (Quirky) [Neutro]</option>
+                        <option value="Seria (Serious) [Neutro]">Seria (Serious) [Neutro]</option>
+                        <option value="Serena (Calm) [+DefSp / -Atq]">Serena (Calm) [+DefSp / -Atq]</option>
+                        <option value="Tímida (Bashful) [Neutro]">Tímida (Bashful) [Neutro]</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -790,11 +806,10 @@
         document.getElementById('details-modal').style.display = 'flex';
     }
 
-    // NUEVA FUNCIÓN: ELIMINAR UN POKÉMON ESPECÍFICO
     function deletePokemon(event, userIdx, pIdx) {
         if (event) {
             event.preventDefault();
-            event.stopPropagation(); // Evitamos que se abra el modal detallado al pulsar la papelera
+            event.stopPropagation();
         }
         userIdx = parseInt(userIdx);
         pIdx = parseInt(pIdx);
@@ -803,8 +818,8 @@
         if (confirm(`¿Estás seguro de eliminar a este ${pokemonName} shiny?`)) {
             showcaseData[userIdx].pokemons.splice(pIdx, 1);
             saveAll();
-            renderShowcase(); // Refresca las tarjetas exteriores
-            openModal(userIdx); // Refresca el modal actual abierto
+            renderShowcase();
+            openModal(userIdx);
         }
     }
 
