@@ -470,7 +470,7 @@
     // --- DATOS GLOBALES ---
     let gymChars = JSON.parse(localStorage.getItem('pmmo_gym_v12')) || [];
     let berryChars = JSON.parse(localStorage.getItem('pmmo_berry_v12')) || [];
-    let showcaseData = []; // Administrado mediante Firebase
+    window.showcaseData = []; // Declarado explícitamente en window para Firebase
     
     let activeGymTab = 0;
     let activeBerryTab = 0;
@@ -686,7 +686,7 @@
         
         // Sincronización en tiempo real en la nube de Firebase
         if (window.firebaseDbRef && window.firebaseSet) {
-            window.firebaseSet(window.firebaseDbRef, showcaseData);
+            window.firebaseSet(window.firebaseDbRef, window.showcaseData);
         }
     }
 
@@ -707,7 +707,7 @@
     }
 
     // ==========================================================================
-    // --- LÓGICA DE SHINY SHOWCASE (SINCRO FIREBASE CORREGIDA) ---
+    // --- LÓGICA DE SHINY SHOWCASE (SINCRO FIREBASE CORREGIDA Y CORRECCIÓN DE COLOR) ---
     // ==========================================================================
     function toggleAdminPanel() {
         const content = document.getElementById('admin-content');
@@ -723,7 +723,6 @@
         document.getElementById('tab-poke').classList.toggle('active', tab === 'pokemon');
     }
 
-    // Formulario de perfil completamente corregido y protegido contra fallos de archivos
     document.getElementById('profile-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         
@@ -746,9 +745,9 @@
             }
         }
 
-        if (!showcaseData) showcaseData = [];
+        if (!window.showcaseData) window.showcaseData = [];
         
-        showcaseData.push({
+        window.showcaseData.push({
             name: nameInput,
             avatar: avatarDataUrl,
             pokemons: []
@@ -770,11 +769,11 @@
         
         const animatedSpriteURL = `https://play.pokemonshowdown.com/sprites/ani-shiny/${pokeNameLower}.gif`;
 
-        if (showcaseData[userIdx]) {
-            if (!showcaseData[userIdx].pokemons) {
-                showcaseData[userIdx].pokemons = [];
+        if (window.showcaseData[userIdx]) {
+            if (!window.showcaseData[userIdx].pokemons) {
+                window.showcaseData[userIdx].pokemons = [];
             }
-            showcaseData[userIdx].pokemons.push({
+            window.showcaseData[userIdx].pokemons.push({
                 name: rawName.charAt(0).toUpperCase() + rawName.slice(1),
                 sprite: animatedSpriteURL,
                 encounters: document.getElementById('poke-encounters').value || 0,
@@ -798,11 +797,11 @@
     });
 
     function renderShowcase() {
-       const grid = document.getElementById('showcase-members-grid');
+        const grid = document.getElementById('showcase-members-grid');
         if (!grid) return;
         grid.innerHTML = '';
         
-        if (!window.showcaseData) return;
+        if (!window.showcaseData || window.showcaseData.length === 0) return;
         
         window.showcaseData.forEach((user, idx) => {
             if (!user) return;
@@ -820,7 +819,7 @@
                     <div class="trainer-avatar"><img src="${user.avatar}"></div>
                     ${favorite ? `<div class="buddy-sprite"><img src="${favorite.sprite}"></div>` : ''}
                 </div>
-                <h3 style="color: #ffffff; font-size:1.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${user.name}</h3>
+                <h3 style="color: #ffffff; font-size:1.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">${user.name}</h3>
                 <div><span class="badge-count">Shinys: ${pList.length}</span></div>
             `;
             grid.appendChild(card);
@@ -829,15 +828,15 @@
 
     function deleteUser(event, idx) {
         event.stopPropagation();
-        if (confirm(`¿Eliminar a ${showcaseData[idx].name} y todos sus datos?`)) {
-            showcaseData.splice(idx, 1);
+        if (confirm(`¿Eliminar a ${window.showcaseData[idx].name} y todos sus datos?`)) {
+            window.showcaseData.splice(idx, 1);
             saveAll();
         }
     }
 
     function openModal(userIdx) {
         userIdx = parseInt(userIdx);
-        const user = showcaseData[userIdx];
+        const user = window.showcaseData[userIdx];
         if (!user) return;
 
         document.getElementById('modal-member-name').innerText = user.name;
@@ -877,9 +876,9 @@
         userIdx = parseInt(userIdx);
         pIdx = parseInt(pIdx);
 
-        const pokemonName = showcaseData[userIdx].pokemons[pIdx].name;
+        const pokemonName = window.showcaseData[userIdx].pokemons[pIdx].name;
         if (confirm(`¿Estás seguro de eliminar a este ${pokemonName} shiny?`)) {
-            showcaseData[userIdx].pokemons.splice(pIdx, 1);
+            window.showcaseData[userIdx].pokemons.splice(pIdx, 1);
             saveAll();
             openModal(userIdx);
         }
@@ -888,7 +887,7 @@
     function openPokemonDetailModal(userIdx, pIdx) {
         userIdx = parseInt(userIdx);
         pIdx = parseInt(pIdx);
-        const pokemon = showcaseData[userIdx].pokemons[pIdx];
+        const pokemon = window.showcaseData[userIdx].pokemons[pIdx];
         if (!pokemon) return;
 
         document.getElementById('pmodal-name').innerText = pokemon.name;
@@ -920,8 +919,8 @@
         userIdx = parseInt(userIdx);
         pIdx = parseInt(pIdx);
 
-        if (showcaseData[userIdx] && showcaseData[userIdx].pokemons) {
-            showcaseData[userIdx].pokemons.forEach((p, i) => {
+        if (window.showcaseData[userIdx] && window.showcaseData[userIdx].pokemons) {
+            window.showcaseData[userIdx].pokemons.forEach((p, i) => {
                 if (p) p.isFavorite = (i === pIdx) ? !p.isFavorite : false;
             });
             
@@ -933,7 +932,7 @@
     function updateUserSelect() {
         const select = document.getElementById('poke-user-select');
         if (!select) return;
-        select.innerHTML = showcaseData.map((u, i) => u ? `<option value="${i}">${u.name}</option>` : '').join('');
+        select.innerHTML = window.showcaseData.map((u, i) => u ? `<option value="${i}">${u.name}</option>` : '').join('');
     }
 
     function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
@@ -945,12 +944,19 @@
         });
     });
 
-    // Escuchador en tiempo real de los datos en la nube de Firebase corregido
+    // Escuchador en tiempo real de Firebase corregido apuntando a window.showcaseData
     function vincularFirebaseShowcase() {
         if (window.firebaseDbRef && window.firebaseOnValue) {
             window.firebaseOnValue(window.firebaseDbRef, (snapshot) => {
                 const data = snapshot.val();
-                showcaseData = data || [];
+                
+                // Conversión segura por si Firebase lo guarda como Objeto indexado en vez de Array limpio
+                if (data && !Array.isArray(data)) {
+                    window.showcaseData = Object.values(data);
+                } else {
+                    window.showcaseData = data || [];
+                }
+                
                 renderShowcase();
                 updateUserSelect();
                 
@@ -958,7 +964,7 @@
                 const detailModal = document.getElementById('details-modal');
                 if (detailModal && detailModal.style.display === 'flex') {
                     const activeHeader = document.getElementById('modal-member-name').innerText;
-                    const uIdx = showcaseData.findIndex(u => u && u.name === activeHeader);
+                    const uIdx = window.showcaseData.findIndex(u => u && u.name === activeHeader);
                     if (uIdx !== -1) openModal(uIdx);
                 }
             });
