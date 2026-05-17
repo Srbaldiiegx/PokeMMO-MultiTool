@@ -689,17 +689,22 @@
         }
     }
 
-    function openModal(userIdx) {
+   function openModal(userIdx) {
+        // Asegurar que el índice se maneja como un número entero
+        userIdx = parseInt(userIdx);
         const user = showcaseData[userIdx];
+        if (!user) return;
+
         document.getElementById('modal-member-name').innerText = user.name;
         const container = document.getElementById('container-shinys-activos');
         container.innerHTML = '';
+        
         user.pokemons.forEach((poke, pIdx) => {
             const pCard = document.createElement('div');
             pCard.className = 'pokemon-card';
-            // CORRECCIÓN: Usar variables ${userIdx} y ${pIdx} numéricas reales en la plantilla HTML
             pCard.innerHTML = `
-                <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" onclick="toggleFavorite(event, ${userIdx}, ${pIdx})">
+                <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" 
+                        onclick="toggleFavorite(event, ${userIdx}, ${pIdx})">
                     <i class="fa-${poke.isFavorite ? 'solid' : 'regular'} fa-star"></i>
                 </button>
                 <img src="${poke.sprite}">
@@ -712,13 +717,26 @@
     }
 
     function toggleFavorite(event, userIdx, pIdx) {
-        event.stopPropagation();
-        showcaseData[userIdx].pokemons.forEach((p, i) => {
-            p.isFavorite = (i === pIdx) ? !p.isFavorite : false;
-        });
-        saveAll();
-        renderShowcase();
-        openModal(userIdx);
+        // 1. Detener por completo cualquier acción o propagación en el DOM
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
+        userIdx = parseInt(userIdx);
+        pIdx = parseInt(pIdx);
+
+        // 2. Modificar el estado del favorito mapeando el array con seguridad
+        if (showcaseData[userIdx] && showcaseData[userIdx].pokemons) {
+            showcaseData[userIdx].pokemons.forEach((p, i) => {
+                p.isFavorite = (i === pIdx) ? !p.isFavorite : false;
+            });
+            
+            // 3. Guardar en localStorage, actualizar la rejilla principal y refrescar el modal
+            saveAll();
+            renderShowcase();
+            openModal(userIdx);
+        }
     }
 
     function updateUserSelect() {
