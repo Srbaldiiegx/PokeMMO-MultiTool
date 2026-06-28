@@ -27,6 +27,11 @@
             --radius-lg: 16px;
             --radius-md: 10px;
             --danger: #ef4444;
+
+            /* --- RED FARM SPECIFIC VARIABLES --- */
+            --rf-card: #222227;
+            --rf-header: #2a2a32;
+            --rf-body: #1f1f23;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,6 +115,7 @@
 
         .nav-link.active { color: white; background: var(--accent); }
         .nav-link.showcase-tab-accent.active { background: var(--showcase-accent); color: #000; }
+        .nav-link.redfarm-tab-accent.active { background: #ff4d5e; color: #fff; }
 
         .system-panel {
             background: rgba(0, 0, 0, 0.6);
@@ -265,6 +271,46 @@
         .pokemon-card span { font-size: 0.7rem; color: var(--text-muted); }
 
         .hidden { display: none !important; }
+
+        /* ==========================================================================
+           --- ESTILOS DE RED FARM ---
+           ========================================================================= */
+        .section-container#redfarm-section { max-width: 850px; width: 100%; }
+        .redfarm-header { text-align: center; margin-bottom: 25px; }
+        .redfarm-header h1 { font-size: 2.2rem; font-weight: 800; color: #ff4d5e; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+        .redfarm-credits { text-align: center; color: #a0aec0; margin-bottom: 30px; font-size: 14px; }
+        .redfarm-credits a { color: #63b3ed; text-decoration: none; font-weight: 500; }
+        .redfarm-credits a:hover { text-decoration: underline; }
+        
+        .rf-section-title { border-bottom: 2px solid #2d3748; padding-bottom: 8px; margin-top: 30px; color: #cbd5e1; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .rf-poke-card { background: var(--rf-card); border: 1px solid #2d2d35; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.15); overflow: hidden; }
+        .rf-poke-header { background: var(--rf-header); padding: 12px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #34343d; }
+        .rf-poke-name { font-size: 18px; font-weight: bold; color: #ffffff; letter-spacing: 0.5px; }
+        
+        .rf-badge { display: inline-block; padding: 4px 10px; font-size: 11px; font-weight: 700; color: #ffffff; border-radius: 5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .rf-badge.electric { background-color: #d69e2e; }
+        .rf-badge.grass { background-color: #48bb78; }
+        .rf-badge.poison { background-color: #9f7aea; }
+        .rf-badge.fire { background-color: #ed8936; }
+        .rf-badge.flying { background-color: #9f7aea; }
+        .rf-badge.psychic { background-color: #ed64a6; }
+        .rf-badge.water { background-color: #4299e1; }
+        .rf-badge.normal { background-color: #a0aec0; }
+        .rf-badge.fighting { background-color: #e53e3e; }
+        .rf-badge.ground { background-color: #dd6b20; }
+        .rf-badge.steel { background-color: #718096; }
+        .rf-badge.dark { background-color: #4a5568; }
+        .rf-badge.dragon { background-color: #667eea; }
+
+        .rf-poke-body { padding: 20px; background-color: var(--rf-body); color: #e2e8f0; }
+        .rf-poke-body ul { margin: 0; padding-left: 20px; }
+        .rf-poke-body li { margin-bottom: 12px; }
+        .rf-nested-ul { margin-top: 10px; list-style-type: circle; padding-left: 20px; }
+        .rf-nested-ul li { margin-bottom: 8px; }
+        
+        .rf-move { font-weight: bold; color: #ffd269; background: rgba(255, 210, 105, 0.15); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255, 210, 105, 0.25); }
+        .rf-highlight { font-weight: bold; color: #ff6b8b; text-transform: uppercase; }
+        .rf-sub-move { list-style-type: none; padding-left: 15px; font-weight: 500; margin-top: 6px; }
     </style>
 
     <script type="module">
@@ -300,6 +346,7 @@
     <button class="nav-link active" onclick="showSection('gym-section', this)">🏆 Gyms</button>
     <button class="nav-link" onclick="showSection('berry-section', this)">🍓 Bayas</button>
     <button class="nav-link showcase-tab-accent" onclick="showSection('showcase-section', this)">✨ ShowCase</button>
+    <button class="nav-link redfarm-tab-accent" onclick="showSection('redfarm-section', this)">🔴 Red Farm</button>
 </nav>
 
 <div class="system-panel" id="global-system-panel">
@@ -430,6 +477,275 @@
     </section>
 
     <section class="showcase-grid" id="showcase-members-grid"></section>
+</div>
+
+<!-- ==========================================================================
+   --- SECCIÓN NUEVA: RED FARM ---
+   ========================================================================= */ -->
+<div id="redfarm-section" class="section-container">
+    <div class="redfarm-header">
+        <h1>Red Farm</h1>
+    </div>
+    <div class="redfarm-credits">
+        Por: <strong>SrbalDiiegx</strong> | 
+        <a href="https://docs.google.com/document/d/1dXaJNGqA2xjUACgcCshclktBlCjcZgTT8390-Q1pGoA/edit?tab=t.0" target="_blank">Guía Original</a> | 
+        <a href="https://pokepast.es/8a207ad044e70c5a" target="_blank">Pokepaste del Equipo</a>
+    </div>
+
+    <div class="rf-section-title">⚔️ Soluciones de Combate</div>
+    <div style="margin-bottom: 25px;"></div>
+
+    <!-- PIKACHU -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" width="40" alt="Pikachu">
+            <div class="rf-poke-name">PIKACHU</div>
+            <span class="rf-badge electric">⚡ Eléctrico</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa la habilidad <span class="rf-move">A Bocajarro</span>.
+                    <ul class="rf-nested-ul">
+                        <li><strong>Si sale Venusaur:</strong> Cambia a <em>Weavile</em> y déjalo morir &rarr; Ve a la solución de <strong>Venusaur</strong>.</li>
+                        <li><strong>Si sale Charizard:</strong> <span class="rf-move">A Bocajarro</span> y déjalo morir &rarr; Ve a la solución de <strong>Charizard</strong>.</li>
+                        <li><strong>Si sale Espeon:</strong> Ve a la solución de <strong>Espeon</strong>.</li>
+                        <li><strong>Si sale Samurott:</strong> Ve a la solución de <strong>Samurott</strong>.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- VENUSAUR -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" width="40" alt="Venusaur">
+            <div class="rf-poke-name">VENUSAUR</div>
+            <span class="rf-badge grass">🌱 Planta</span>
+            <span class="rf-badge poison">☠️ Veneno</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">Otra vez</span> y deja morir a <em>Infernape</em>. Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Bostezo</span>.</li>
+                <li><strong>Si Jolteon Muere:</strong> Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span> *(Patada Baja a Snorlax, Golpe Bajo a los demás)*.</li>
+                <li><strong>Si Jolteon NO Muere:</strong> Usa <span class="rf-move">Bostezo</span> otra vez para que te mate &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span> *(Patada Baja a Snorlax, Golpe Bajo a los demás)*.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- CHARIZARD -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" width="40" alt="Charizard">
+            <div class="rf-poke-name">CHARIZARD</div>
+            <span class="rf-badge fire">🔥 Fuego</span>
+            <span class="rf-badge flying">🦅 Volador</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">Otra vez</span> y deja morir a <em>Infernape</em>. Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Voltiocambio</span>.</li>
+                <li><strong>Si Charizard muere:</strong> Saca a <em>Breloom</em> y déjalo morir. Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span> *(Patada Baja a Snorlax, Golpe Bajo a los demás)*.</li>
+                <li><strong>Si Charizard cambia a Snorlax:</strong> Ve a la solución de <strong>Snorlax</strong>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ESPEON -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/196.png" width="40" alt="Espeon">
+            <div class="rf-poke-name">ESPEON</div>
+            <span class="rf-badge psychic">🔮 Psíquico</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Cambia a <em>Bisharp</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span> *(Patada Baja a Snorlax, Golpe Bajo a los demás)*.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- BLASTOISE -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png" width="40" alt="Blastoise">
+            <div class="rf-poke-name">BLASTOISE</div>
+            <span class="rf-badge water">💧 Agua</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">A Bocajarro</span>. Saca a <em>Breloom</em> &rarr; Cambia a <em>Jolteon</em> &rarr; <span class="rf-move">Voltiocambio</span> &rarr; Ve a la solución de <strong>Charizard</strong>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SNORLAX -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png" width="40" alt="Snorlax">
+            <div class="rf-poke-name">SNORLAX</div>
+            <span class="rf-badge normal">⚪ Normal</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Cambia a <em>Breloom</em> &rarr; <span class="rf-move">Demolición</span>.</li>
+                <li><strong>Si Snorlax muere:</strong> Deja morir a <em>Breloom</em>. Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Bostezo</span>.
+                    <ul class="rf-nested-ul">
+                        <li><em>Si Jolteon muere:</em> Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>.</li>
+                        <li><em>Si Jolteon NO muere:</em> <span class="rf-move">Bostezo</span> hasta que te mate &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>.</li>
+                    </ul>
+                </li>
+                <li><strong>Si Snorlax NO muere:</strong> Saca a <em>Jolteon</em>. Saca a <em>Bisharp</em> (<span class="rf-move">Patada Baja</span>) y luego saca a <em>Weavile</em> para que muera &rarr; <span class="rf-move">Bostezo</span>.
+                    <ul class="rf-nested-ul">
+                        <li><em>Si Jolteon está MUERTO:</em> Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>.</li>
+                        <li><em>Si Jolteon está VIVO:</em> <span class="rf-move">Bostezo</span> hasta que te mate &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- EMBOAR -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/500.png" width="40" alt="Emboar">
+            <div class="rf-poke-name">EMBOAR</div>
+            <span class="rf-badge fire">🔥 Fuego</span>
+            <span class="rf-badge fighting">🥊 Lucha</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li><strong>Si el rugido saca a Jolteon:</strong> <span class="rf-move">Bostezo</span> *(si sobrevive, Bostezo hasta morir y no uses protección después)* &rarr; Saca a <em>Breloom</em> &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea todo!</span>:
+                    <div class="rf-sub-move">💥 <span class="rf-move">Demolición</span> a Samurott</div>
+                    <div class="rf-sub-move">💥 <span class="rf-move">Ultrapuño</span> al resto</div>
+                </li>
+                <li style="margin-top: 15px;"><strong>Si el rugido saca a cualquier otro:</strong> Cambia a <em>Weavile</em> y déjalo morir &rarr; Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Bostezo</span> *(si sobrevive, Bostezo hasta morir y no uses protección después)* &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea todo!</span>:
+                    <div class="rf-sub-move">💥 <span class="rf-move">Demolición</span> a Samurott</div>
+                    <div class="rf-sub-move">💥 <span class="rf-move">Ultrapuño</span> al resto</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SERPERIOR -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/497.png" width="40" alt="Serperior">
+            <div class="rf-poke-name">SERPERIOR</div>
+            <span class="rf-badge grass">🌱 Planta</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">Ida y Vuelta</span>. Saca a <em>Bisharp</em>.
+                    <ul class="rf-nested-ul">
+                        <li><strong>Si Ciclón Hojas golpea:</strong> <span class="rf-move">Golpe Bajo</span> &rarr; Saca a <em>Infernape</em> con <span class="rf-move">Ida y Vuelta</span> &rarr; Saca a <em>Breloom</em> *(entrará Emboar con rugido y te cambiará; ve a la solución de Emboar)*.</li>
+                        <li><strong>Si Ciclón Hojas falla o usa Drenadoras:</strong> <span class="rf-move">Golpe Bajo x2</span> *(entrará Emboar con rugido y te cambiará; ve a la solución de Emboar)*.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- HYDREIGON -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/635.png" width="40" alt="Hydreigon">
+            <div class="rf-poke-name">HYDREIGON</div>
+            <span class="rf-badge dark">😈 Siniestro</span>
+            <span class="rf-badge dragon">🐉 Dragón</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">A Bocajarro</span>. Sale Samurott &rarr; <span class="rf-move">A Bocajarro</span> hasta que te mate &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Golpe Bajo</span> *(entrará Emboar con rugido y te cambiará; ve a la solución de Emboar)*.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- EXCADRILL -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/530.png" width="40" alt="Excadrill">
+            <div class="rf-poke-name">EXCADRILL</div>
+            <span class="rf-badge ground">⛰️ Tierra</span>
+            <span class="rf-badge steel">⚙️ Acero</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">A Bocajarro</span>. Sale Samurott &rarr; <span class="rf-move">A Bocajarro</span> hasta que te mate &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Golpe Bajo</span> *(entrará Emboar con rugido y te cambiará; ve a la solución de Emboar)*.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SAMUROTT -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/503.png" width="40" alt="Samurott">
+            <div class="rf-poke-name">SAMUROTT</div>
+            <span class="rf-badge water">💧 Agua</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Usa <span class="rf-move">A Bocajarro</span> hasta morir &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Golpe Bajo</span> *(entrará Emboar con rugido y te cambiará; ve a la solución de Emboar)*.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- STARAPTOR -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/398.png" width="40" alt="Staraptor">
+            <div class="rf-poke-name">STARAPTOR</div>
+            <span class="rf-badge flying">🦅 Volador</span>
+            <span class="rf-badge normal">⚪ Normal</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li><strong>Si Tornado saca a Jolteon:</strong> <span class="rf-move">Voltiocambio</span> &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Golpe Bajo</span> hasta morir &rarr; Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Bostezo</span> &rarr; Saca a <em>Weavile</em> &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>:
+                    <div class="rf-sub-move">❄️ <span class="rf-move">Chuzos (Carámbano):</span> Pikachu, Garchomp, Torterra</div>
+                    <div class="rf-sub-move">🥊 <span class="rf-move">Demolición:</span> Infernape, Empoleon</div>
+                </li>
+                <li style="margin-top: 15px;"><strong>Si Tornado saca a cualquier otro:</strong> Cambia a <em>Infernape</em> para dejarlo morir *(otra vez si sigue vivo)* &rarr; Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Voltiocambio</span> &rarr; Saca a <em>Bisharp</em> &rarr; <span class="rf-move">Golpe Bajo</span> hasta morir &rarr; Saca a <em>Jolteon</em> &rarr; <span class="rf-move">Bostezo</span> &rarr; Saca a <em>Weavile</em> &rarr; <span class="rf-move">Protección</span> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>:
+                    <div class="rf-sub-move">❄️ <span class="rf-move">Chuzos (Carámbano):</span> Pikachu, Garchomp, Torterra</div>
+                    <div class="rf-sub-move">🥊 <span class="rf-move">Demolición:</span> Infernape, Empoleon</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- GLISCOR -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/472.png" width="40" alt="Gliscor">
+            <div class="rf-poke-name">GLISCOR</div>
+            <span class="rf-badge ground">⛰️ Tierra</span>
+            <span class="rf-badge flying">🦅 Volador</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Cambia a <em>Jolteon</em> y déjalo morir &rarr; Saca a <em>Infernape</em> &rarr; <span class="rf-move">Otra vez</span> &rarr; Cambia a <em>Gliscor</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-move">Pulimento</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>:
+                    <div class="rf-sub-move">🌪️ <span class="rf-move">Acróbata:</span> Swampert, Sceptile, Salamence</div>
+                    <div class="rf-sub-move">🌋 <span class="rf-move">Terremoto:</span> Pikachu, Tyranitar, Typhlosion</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SWAMPERT -->
+    <div class="rf-poke-card">
+        <div class="rf-poke-header">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/260.png" width="40" alt="Swampert">
+            <div class="rf-poke-name">SWAMPERT</div>
+            <span class="rf-badge water">💧 Agua</span>
+            <span class="rf-badge ground">⛰️ Tierra</span>
+        </div>
+        <div class="rf-poke-body">
+            <ul>
+                <li>Cambia a <em>Jolteon</em> y déjalo morir &rarr; Saca a <em>Infernape</em> &rarr; <span class="rf-move">Otra vez</span> &rarr; Cambia a <em>Gliscor</em> &rarr; <span class="rf-move">Danza Espada</span> &rarr; <span class="rf-move">Pulimento</span> &rarr; <span class="rf-highlight">¡Oneshotea!</span>:
+                    <div class="rf-sub-move">🌪️ <span class="rf-move">Acróbata:</span> Swampert, Sceptile, Salamence</div>
+                    <div class="rf-sub-move">🌋 <span class="rf-move">Terremoto:</span> Pikachu, Tyranitar, Typhlosion</div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div class="modal-overlay" id="details-modal">
@@ -676,7 +992,7 @@
         btn.classList.add('active');
         
         const sysPanel = document.getElementById('global-system-panel');
-        if (id === 'showcase-section') { sysPanel.style.display = 'none'; } 
+        if (id === 'showcase-section' || id === 'redfarm-section') { sysPanel.style.display = 'none'; } 
         else { sysPanel.style.display = 'flex'; }
     }
 
@@ -707,7 +1023,7 @@
     }
 
     // ==========================================================================
-    // --- LÓGICA DE SHINY SHOWCASE (SINCRO FIREBASE CORREGIDA Y CORRECCIÓN DE COLOR) ---
+    // --- LÓGICA DE SHINY SHOWCASE ---
     // ==========================================================================
     function toggleAdminPanel() {
         const content = document.getElementById('admin-content');
@@ -944,13 +1260,11 @@
         });
     });
 
-    // Escuchador en tiempo real de Firebase corregido apuntando a window.showcaseData
     function vincularFirebaseShowcase() {
         if (window.firebaseDbRef && window.firebaseOnValue) {
             window.firebaseOnValue(window.firebaseDbRef, (snapshot) => {
                 const data = snapshot.val();
                 
-                // Conversión segura por si Firebase lo guarda como Objeto indexado en vez de Array limpio
                 if (data && !Array.isArray(data)) {
                     window.showcaseData = Object.values(data);
                 } else {
@@ -960,7 +1274,6 @@
                 renderShowcase();
                 updateUserSelect();
                 
-                // Mantener el modal actualizado dinámicamente si cambia la DB en la nube
                 const detailModal = document.getElementById('details-modal');
                 if (detailModal && detailModal.style.display === 'flex') {
                     const activeHeader = document.getElementById('modal-member-name').innerText;
