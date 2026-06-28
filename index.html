@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeMMO Ultimate Toolkit By SrbalDiiegx</title>
+    <title>PokeMMO Ultimate Toolkit por SrBalDiiegx</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -343,7 +343,58 @@
         .conditional-title { font-weight: bold; color: #fdba74; margin-bottom: 5px; }
         
         .tp-bar { background: #1a1a24; border: 1px dashed #3f3f50; padding: 12px; text-align: center; font-weight: bold; color: #94a3b8; border-radius: 6px; margin: 20px 0; text-transform: uppercase; letter-spacing: 0.5px; }
-    </style>
+
+        .hooh-guide .card {
+    width: 95% !important;
+    max-width: 1200px !important;
+    margin: 20px auto !important;
+    padding: 20px;
+    background: #1e2132; /* Tu color de tarjeta */
+    border-radius: 12px;
+}
+
+.hooh-guide table { 
+    width: 100% !important; 
+    border-collapse: collapse !important; /* Importante para que se vean las líneas */
+    background-color: #1e1e1e;
+    border: 1px solid #444; /* Línea exterior */
+    margin-top: 20px;
+}
+
+.hooh-guide th, .hooh-guide td { 
+    border: 1px solid #444 !important; /* Recuperamos las líneas divisorias */
+    padding: 15px !important;
+    color: #e0e0e0;
+    vertical-align: middle;
+}
+
+.hooh-guide th { 
+    background-color: #2c2c2c; 
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Ajuste de los sprites para que no rompan la fila */
+.hooh-guide .sprite { 
+    height: 35px; 
+    width: auto; 
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+/* Asegurar que el título y el equipo tengan espacio */
+.hooh-guide h1 {
+    margin-bottom: 25px !important;
+    text-align: center;
+}
+
+.hooh-guide .team-link {
+    margin-bottom: 25px !important;
+    text-align: center;
+}
+
+</style>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
@@ -385,6 +436,8 @@
         <div class="dropdown-content" id="farm-dropdown-menu" style="display: none !important;">
             <button onclick="showSection('redfarm-section', document.getElementById('farm-nav-btn'))">🔴 Red Farm</button>
             <button onclick="showSection('gyms-guide-section', document.getElementById('farm-nav-btn'))">⚔️ Run de Gyms</button>
+            <button onclick="showSection('hooh-section', document.getElementById('farm-nav-btn'))">🔥 Ho-Oh</button>
+        </div>
         </div>
         <script>
             document.getElementById('farm-dropdown-container').addEventListener('click', function(e) {
@@ -407,6 +460,39 @@
     <span>⚙️ <b>Control de Alarmas:</b></span>
     <button onclick="triggerAlarm('test', '🚨 PRUEBA DE SONIDO Y VISUAL')" style="background: var(--blue); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Probar Alarma</button>
 </div>
+
+<div id="hooh-section" class="section-container hooh-guide">
+    <div class="card">
+        <h1>Guía de Farm: Ho-Oh</h1>
+        <div class="team-link" style="text-align: center; margin-bottom: 20px;">
+            
+            <p><strong>Equipo necesario:</strong> <a href="https://pokepast.es/295661711b87001e" target="_blank" style="color: #4fc3f7;">Ver PokePast</a></p>
+        </div>
+        <table>
+            <tbody>
+                <table>
+            <thead>
+                <tr>
+                    <th>Turno</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="turn-num">1</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Velo Sagrado + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Maquinación + <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Protección</td></tr>
+                <tr><td class="turn-num">2</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Protección + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Maquinación + <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Espacio Raro</td></tr>
+                <tr><td class="turn-num">3</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Cambio por  <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Atacar perro + <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Más Psique a (Rotom)</td></tr>
+                <tr><td class="turn-num">4</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Joya de luz a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Atacar perro + <img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Cambio por  <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"></td></tr>
+                <tr><td class="turn-num">5</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Cambio por  <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Rayo a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Joya de luz (a Ho-Oh)</td></tr>
+                <tr><td class="turn-num">6</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Joya de luz a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Atacar perro + <img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Cambio por  <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"></td></tr>
+                <tr><td class="turn-num">7</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Cambio por <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Pantalla de luz + <img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Espacio Raro</td></tr>
+                <tr><td class="turn-num">8</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Joya de luz a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Maquinación + <img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Más Psique a (Rotom)</td></tr>
+                <tr><td class="turn-num">9</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/lunatone.gif" class="sprite"> Joya de luz a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Rayo a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Bola Sombra a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"></td></tr>
+                <tr><td class="turn-num">10</td><td><img src="https://play.pokemonshowdown.com/sprites/xyani/rotom-heat.gif" class="sprite"> Rayo a <img src="https://play.pokemonshowdown.com/sprites/xyani/hooh.gif" class="sprite"> + <img src="https://play.pokemonshowdown.com/sprites/xyani/chandelure.gif" class="sprite"> Bola Sombra a (Ho-Oh)</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
 <div id="gym-section" class="section-container active">
     <div class="card">
@@ -1291,13 +1377,13 @@
             content.innerHTML = `
                 <div class="timer-display" style="color:${disponible ? 'var(--green)' : 'var(--gold)'}">${timeStr}</div>
                 <button class="btn-main" onclick="startGymRun(${activeGymTab})" ${!disponible ? 'disabled' : ''}>
-                    ${disponible ? 'Iniciar CD (18h)' : 'En Cooldown'}
+                    ${disponible ? 'Iniciar CoolDown (18h)' : 'En Cooldown'}
                 </button>
                 <div class="calc-grid" style="margin-top:20px;">
                     <div>
                         <label style="font-size:0.85em; color:#888;">Multiplicador</label>
                         <select id="mult-${activeGymTab}" onchange="updateGymCalc(${activeGymTab})">
-                            <option value="1" ${active.multiplier===1?'selected':''}>Mon. Amuleto (50%)</option>
+                            <option value="1.5" ${active.multiplier===1.5?'selected':''}>Mon. Amuleto (50%)</option>
                             <option value="1.75" ${active.multiplier===1.75?'selected':''}>Amuleto Riqueza (75%)</option>
                             <option value="2" ${active.multiplier===2?'selected':''}>Amuleto Riqueza (100%)</option>
                         </select>
@@ -1341,99 +1427,93 @@
     const ahora = new Date();
     
     let nombreBaya = "";
-    let tiempoRiego = 0;
     let tiempoCosecha = 0;
-    let tiempoExtra = 0; // Para el margen de recogida
 
     if(type === 'extractoras') {
         nombreBaya = "Extractoras";
-        tiempoRiego = 5;
         tiempoCosecha = 16;
-        tiempoExtra = 4;
     } else if(type === 'zanama') {
         nombreBaya = "Zanama";
-        tiempoRiego = 0; // Se riegan al plantar
         tiempoCosecha = 20;
-        // Se riegan de nuevo a las 9 horas
     }
 
     const format = (d) => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
     
-    // Cálculo de tiempos
     let tHarvest = new Date(ahora.getTime() + tiempoCosecha * 60 * 60 * 1000);
     active.nextHarvest = format(tHarvest);
 
-    // Lógica específica de riego
-    if(type === 'extractoras') {
-        let tRiego = new Date(ahora.getTime() + 5 * 60 * 60 * 1000);
-        active.nextWater = format(tRiego);
-    } else {
-        // Zanama: Riego inicial (ahora) + riego a las 9h
-        let tRiego2 = new Date(ahora.getTime() + 9 * 60 * 60 * 1000);
-        active.nextWater = `Ahora y ${format(tRiego2)}`;
-    }
+    let tRiegoCalculado = new Date(ahora.getTime() + (type === 'extractoras' ? 5 : 9) * 60 * 60 * 1000);
+    active.nextWater = format(tRiegoCalculado);
 
     active.logs.unshift({
         label: `${nombreBaya} (Cosecha: ${tiempoCosecha}h)`,
-        fecha: ahora.toLocaleDateString(),
-        riego: active.nextWater,
-        cosecha: active.nextHarvest
+        fecha: `${ahora.toLocaleDateString()} ${format(ahora)}`,
+        cosecha: active.nextHarvest,
+        riego: active.nextWater, // Hora limpia para el contador superior
+        riegoHistorial: type === 'zanama' ? `Regar: Ahora y ${active.nextWater}` : active.nextWater, // Texto completo para el historial
+        aviso: type === 'extractoras' ? "⚠️ Recoger máx. 4h después" : ""
     });
 
-    saveAll(); renderBerry();
+    saveAll(); 
+    renderBerry();
 }
 
-    function renderBerry() {
-        const tabs = document.getElementById('berryTabs');
-        const content = document.getElementById('berryContent');
-        if(!tabs) return;
-        tabs.innerHTML = ''; content.innerHTML = '';
+   function renderBerry() {
+    const tabs = document.getElementById('berryTabs');
+    const content = document.getElementById('berryContent');
+    if(!tabs) return;
+    tabs.innerHTML = ''; content.innerHTML = '';
 
-        berryChars.forEach((char, i) => {
-            const btn = document.createElement('button');
-            btn.className = `tab-btn ${i === activeBerryTab ? 'active' : ''}`;
-            btn.innerText = char.name;
-            btn.onclick = () => { activeBerryTab = i; renderBerry(); };
-            tabs.appendChild(btn);
-        });
+    berryChars.forEach((char, i) => {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${i === activeBerryTab ? 'active' : ''}`;
+        btn.innerText = char.name;
+        btn.onclick = () => { activeBerryTab = i; renderBerry(); };
+        tabs.appendChild(btn);
+    });
 
-        const active = berryChars[activeBerryTab];
-        if(active) {
-            let logItems = (active.logs || []).map((l, idx) => `
-                <div class="log-item" onclick="selectBerryLog(${activeBerryTab}, ${idx})">
-                    <div>
-                        <b>${l.label}</b> <span style="color:#555; font-size:0.85em;">(${l.fecha})</span>
-                        <div style="font-size:0.85em; color:#888;">Riego: ${l.riego} | Cosecha: ${l.cosecha}</div>
-                    </div>
-                    <span class="del-log" onclick="event.stopPropagation(); deleteBerryLog(${activeBerryTab}, ${idx})">×</span>
-                </div>
-            `).join('');
-
-            content.innerHTML = `
-                <div class="grid-timers">
-                    <div class="time-box">
-                        <div style="font-size:0.85em; color:#888; text-transform:uppercase;">Próximo Riego</div>
-                        <div style="font-size:1.8em; font-weight:bold; color:var(--blue); margin-top:5px;">${active.nextWater}</div>
-                    </div>
-                    <div class="time-box" style="border-bottom-color:var(--green)">
-                        <div style="font-size:0.85em; color:#888; text-transform:uppercase;">Cosecha</div>
-                        <div style="font-size:1.8em; font-weight:bold; color:var(--green); margin-top:5px;">${active.nextHarvest}</div>
+    const active = berryChars[activeBerryTab];
+    if(active) {
+        let logItems = (active.logs || []).map((l, idx) => `
+            <div class="log-item" onclick="selectBerryLog(${activeBerryTab}, ${idx})">
+                <div>
+                    <b>${l.label}</b> ${l.aviso ? `<span style="color:#ffcc00; font-size:0.8em; margin-left:5px;">⚠️ ${l.aviso}</span>` : ""}
+                    <span style="color:#555; font-size:0.85em;">(${l.fecha})</span>
+                    <div style="font-size:0.85em; color:#888;">
+                        Riego: ${l.riegoHistorial || l.riego} | Cosecha: ${l.cosecha}
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                   <button class="btn-main" style="background:var(--blue); margin:0;" onclick="setBerryTimes('extractoras')">Plantar Extractoras</button>
-                    <button class="btn-main" style="background:#e67e22; margin:0;" onclick="setBerryTimes('zanama')">Plantar Zanama</button>
+                <span class="del-log" onclick="event.stopPropagation(); deleteBerryLog(${activeBerryTab}, ${idx})">×</span>
+            </div>
+        `).join('');
+
+        content.innerHTML = `
+            <div class="grid-timers">
+                <div class="time-box">
+                    <div style="font-size:0.85em; color:#888; text-transform:uppercase;">Próximo Riego</div>
+                    <div style="font-size:1.8em; font-weight:bold; color:var(--blue); margin-top:5px;">${active.nextWater}</div>
                 </div>
-                <div style="margin-top:20px;">
-                    <span style="color:#888; font-size:0.9em; font-weight:bold;">Historial de Cosechas:</span>
-                    <div class="history">${logItems || '<p style="color:#444; padding:10px; text-align:center;">No hay registros.</p>'}</div>
+                <div class="time-box" style="border-bottom-color:var(--green)">
+                    <div style="font-size:0.85em; color:#888; text-transform:uppercase;">Cosecha</div>
+                    <div style="font-size:1.8em; font-weight:bold; color:var(--green); margin-top:5px;">${active.nextHarvest}</div>
                 </div>
-                <button onclick="deleteBerryChar(${activeBerryTab})" style="background:rgba(231,76,60,0.2); color:var(--red); border:1px solid var(--red); padding:8px; width:100%; margin-top:25px; border-radius:6px; cursor:pointer; font-weight:bold;">Eliminar Cuenta</button>
-            `;
-        } else {
-            content.innerHTML = `<p style="text-align:center; color:#666;">No hay cuentas registradas. Añade una arriba.</p>`;
-        }
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button class="btn-main" style="background:var(--blue); margin:0;" onclick="setBerryTimes('extractoras'); alert('¡Aviso! Recuerda que las Extractoras tienen un máximo de 4 horas extra de margen para ser recogidas tras la cosecha.');">Plantar Extractoras</button>
+                <button class="btn-main" style="background:#e67e22; margin:0;" onclick="setBerryTimes('zanama')">Plantar Zanama</button>
+            </div>
+            
+            <div style="margin-top:20px;">
+                <span style="color:#888; font-size:0.9em; font-weight:bold;">Historial de Cosechas:</span>
+                <div class="history">${logItems || '<p style="color:#444; padding:10px; text-align:center;">No hay registros.</p>'}</div>
+            </div>
+            <button onclick="deleteBerryChar(${activeBerryTab})" style="background:rgba(231,76,60,0.2); color:var(--red); border:1px solid var(--red); padding:8px; width:100%; margin-top:25px; border-radius:6px; cursor:pointer; font-weight:bold;">Eliminar Cuenta</button>
+        `;
+    } else {
+        content.innerHTML = `<p style="text-align:center; color:#666;">No hay cuentas registradas. Añade una arriba.</p>`;
     }
+}
 
     function deleteBerryLog(charIdx, logIdx) {
         berryChars[charIdx].logs.splice(logIdx, 1);
