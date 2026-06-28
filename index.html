@@ -99,6 +99,7 @@
             background: #161925;
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 10px;
             padding: 15px 0;
             border-bottom: 2px solid var(--accent);
@@ -116,6 +117,23 @@
         .nav-link.active { color: white; background: var(--accent); }
         .nav-link.showcase-tab-accent.active { background: var(--showcase-accent); color: #000; }
         .nav-link.redfarm-tab-accent.active { background: #ff4d5e; color: #fff; }
+
+        /* --- DROPDOWN MENÚ (FARM) --- */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: #1e2132;
+            min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+            border-radius: 5px; z-index: 1010; top: 100%; left: 0; margin-top: 5px;
+            border: 1px solid #333;
+        }
+        .dropdown-content button {
+            color: #888; padding: 12px 16px; text-decoration: none; display: block;
+            background: none; border: none; width: 100%; text-align: left;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .dropdown-content button:hover { background-color: rgba(255,255,255,0.05); color: white; }
+        .dropdown-content button.active { color: #fff; background: var(--accent); }
+        .dropdown:hover .dropdown-content { display: block; }
 
         .system-panel {
             background: rgba(0, 0, 0, 0.6);
@@ -273,18 +291,22 @@
         .hidden { display: none !important; }
 
         /* ==========================================================================
-           --- ESTILOS DE RED FARM ---
+           --- ESTILOS DE RED FARM / RUN DE GYMS ---
            ========================================================================= */
-        .section-container#redfarm-section { max-width: 850px; width: 100%; }
+        .section-container#redfarm-section, .section-container#gyms-guide-section { max-width: 850px; width: 100%; }
         .redfarm-header { text-align: center; margin-bottom: 25px; }
         .redfarm-header h1 { font-size: 2.2rem; font-weight: 800; color: #ff4d5e; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
         .redfarm-credits { text-align: center; color: #a0aec0; margin-bottom: 30px; font-size: 14px; }
         .redfarm-credits a { color: #63b3ed; text-decoration: none; font-weight: 500; }
         .redfarm-credits a:hover { text-decoration: underline; }
         
-        .rf-section-title { border-bottom: 2px solid #2d3748; padding-bottom: 8px; margin-top: 30px; color: #cbd5e1; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .rf-poke-card { background: var(--rf-card); border: 1px solid #2d2d35; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.15); overflow: hidden; }
-        .rf-poke-header { background: var(--rf-header); padding: 12px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #34343d; }
+        .rf-section-title, .region-title { border-bottom: 2px solid #2d3748; padding-bottom: 8px; margin-top: 30px; color: #cbd5e1; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .region-title { color: #60a5fa; border-left: 5px solid #f43f5e; padding-left: 10px; margin-bottom: 15px; }
+        
+        .rf-poke-card, .gym-card { background: var(--rf-card); border: 1px solid #2d2d35; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.15); overflow: hidden; }
+        .rf-poke-header, .gym-header { background: var(--rf-header); padding: 12px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #34343d; font-size: 18px; font-weight: bold; color: #ffffff; }
+        .gym-num { color: #f43f5e; font-weight: 800; }
+        
         .rf-poke-name { font-size: 18px; font-weight: bold; color: #ffffff; letter-spacing: 0.5px; }
         
         .rf-badge { display: inline-block; padding: 4px 10px; font-size: 11px; font-weight: 700; color: #ffffff; border-radius: 5px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -302,15 +324,25 @@
         .rf-badge.dark { background-color: #4a5568; }
         .rf-badge.dragon { background-color: #667eea; }
 
-        .rf-poke-body { padding: 20px; background-color: var(--rf-body); color: #e2e8f0; }
-        .rf-poke-body ul { margin: 0; padding-left: 20px; }
-        .rf-poke-body li { margin-bottom: 12px; }
+        .rf-poke-body, .strategy { padding: 20px; background-color: var(--rf-body); color: #e2e8f0; }
+        .rf-poke-body ul, .strategy ul { margin: 0; padding-left: 20px; }
+        .rf-poke-body li, .strategy li { margin-bottom: 12px; }
         .rf-nested-ul { margin-top: 10px; list-style-type: circle; padding-left: 20px; }
         .rf-nested-ul li { margin-bottom: 8px; }
         
-        .rf-move { font-weight: bold; color: #ffd269; background: rgba(255, 210, 105, 0.15); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255, 210, 105, 0.25); }
+        .rf-move, .move-tag { font-weight: bold; color: #ffd269; background: rgba(255, 210, 105, 0.15); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255, 210, 105, 0.25); }
+        .move-tag { color: #f97316; background: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.2); }
+        .action-tag { color: #60a5fa; font-weight: bold; }
         .rf-highlight { font-weight: bold; color: #ff6b8b; text-transform: uppercase; }
         .rf-sub-move { list-style-type: none; padding-left: 15px; font-weight: 500; margin-top: 6px; }
+
+        .pkmn-inline { display: inline-block; vertical-align: middle; background: #2a2a35; border: 1px solid #3f3f50; border-radius: 4px; padding: 2px 6px; margin: 2px 2px; font-weight: 600; font-size: 10pt; color: #f1f5f9; }
+        .pkmn-inline img { width: 28px; height: auto; vertical-align: middle; margin-right: 2px; }
+        
+        .conditional { background-color: #2c221e; border-left: 3px solid #f97316; padding: 10px; margin-top: 10px; border-radius: 0 4px 4px 0; }
+        .conditional-title { font-weight: bold; color: #fdba74; margin-bottom: 5px; }
+        
+        .tp-bar { background: #1a1a24; border: 1px dashed #3f3f50; padding: 12px; text-align: center; font-weight: bold; color: #94a3b8; border-radius: 6px; margin: 20px 0; text-transform: uppercase; letter-spacing: 0.5px; }
     </style>
 
     <script type="module">
@@ -346,7 +378,29 @@
     <button class="nav-link active" onclick="showSection('gym-section', this)">🏆 Gyms</button>
     <button class="nav-link" onclick="showSection('berry-section', this)">🍓 Bayas</button>
     <button class="nav-link showcase-tab-accent" onclick="showSection('showcase-section', this)">✨ ShowCase</button>
-    <button class="nav-link redfarm-tab-accent" onclick="showSection('redfarm-section', this)">🔴 Red Farm</button>
+    
+    <!-- BARRA DE NAVEGACIÓN MODIFICADA: DROPDOWN FARM -->
+    <div class="dropdown" id="farm-dropdown-container">
+        <button class="nav-link redfarm-tab-accent" id="farm-nav-btn">🚜 Farm <i class="fa-solid fa-caret-down"></i></button>
+        <div class="dropdown-content" id="farm-dropdown-menu" style="display: none !important;">
+            <button onclick="showSection('redfarm-section', document.getElementById('farm-nav-btn'))">🔴 Red Farm</button>
+            <button onclick="showSection('gyms-guide-section', document.getElementById('farm-nav-btn'))">⚔️ Run de Gyms</button>
+        </div>
+        <script>
+            document.getElementById('farm-dropdown-container').addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = document.getElementById('farm-dropdown-menu');
+                if (menu.style.getPropertyValue('display') === 'block !important' || menu.style.display === 'block') {
+                    menu.style.setProperty('display', 'none', 'important');
+                } else {
+                    menu.style.setProperty('display', 'block', 'important');
+                }
+            });
+            document.addEventListener('click', function() {
+                document.getElementById('farm-dropdown-menu').style.setProperty('display', 'none', 'important');
+            });
+        </script>
+    </div>
 </nav>
 
 <div class="system-panel" id="global-system-panel">
@@ -479,9 +533,7 @@
     <section class="showcase-grid" id="showcase-members-grid"></section>
 </div>
 
-<!-- ==========================================================================
-   --- SECCIÓN NUEVA: RED FARM ---
-   ========================================================================= */ -->
+<!-- SECCIÓN: RED FARM -->
 <div id="redfarm-section" class="section-container">
     <div class="redfarm-header">
         <h1>Red Farm</h1>
@@ -748,6 +800,340 @@
     </div>
 </div>
 
+<!-- NUEVA SECCIÓN INTEGRADA: GUÍA RUN DE GYMS -->
+<div id="gyms-guide-section" class="section-container">
+    <div class="redfarm-header">
+        <h1>Run de Gimnasios </h1>
+        <div class="redfarm-credits">Traducido por <strong>SrbalDiiegx</strong></div>
+    </div>
+
+    <!-- HOENN -->
+    <div class="region-title">Hoenn</div>
+    
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">1.</span> Pueblo Lavacalda</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> <span class="move-tag">Salpicar</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">2.</span> Ciudad Malvalona</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">3.</span> Ciudad Férrica</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">4.</span> Ciudad Azulona</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> <span class="move-tag">Salpicar</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">5.</span> Ciudad Arborada</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> <span class="move-tag">Ventisca</span>
+            <div class="conditional">
+                <div class="conditional-title">Si en Turno 1 sale Pelipper / Altaria:</div>
+                <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> usa <span class="move-tag">Viento Hielo</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tp-bar">➔ TP + Curar y cambiar a Sinnoh</div>
+
+    <!-- SINNOH -->
+    <div class="region-title">Sinnoh</div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">6.</span> Ciudad Vetusta</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span>
+            <div class="conditional">
+                <div class="conditional-title">Si sale Ninetales:</div>
+                Cambiar <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> por <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">7.</span> Ciudad Pirita</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si sale <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/tyranitar.png"> Tyranitar</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span>:</div>
+                <ul>
+                    <li><strong>Turno 1:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="action-tag">Protección</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span></li>
+                    <li><strong>Turno 2:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span></li>
+                </ul>
+            </div>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si sale Gigalith + Excadrill:</div>
+                <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">8.</span> Ciudad Rocavelo</div>
+        <div class="strategy">
+            <ul>
+                <li><strong>Turno 1:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Día Soleado</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+                <li><strong>Resto de Turnos:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">9.</span> Ciudad Marina</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> <span class="move-tag">Salpicar</span>
+            <div class="conditional">
+                <div class="conditional-title">Si sale Lanturn:</div>
+                Cambiar <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> por <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tp-bar">➔ TP + Curar y viajar a Kanto</div>
+
+    <!-- KANTO -->
+    <div class="region-title">Kanto</div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">10.</span> Ciudad Carmín</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">11.</span> Isla Canela</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span>
+            <div class="conditional">
+                <div class="conditional-title">Si sale Torkoal / Ninetales:</div>
+                Cambiar <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> por <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span><br>
+                Luego usar: <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> <span class="move-tag">Ventisca</span> y <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> <span class="move-tag">Salpicar</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">12.</span> Ciudad Plateada</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">13.</span> Ciudad Azafrán</div>
+        <div class="strategy">
+            <div style="margin-bottom: 5px; font-style: italic; color: #94a3b8;">Camino rápido: ↑ ↓ ↓ ← (Para salir, el mismo camino al revés)</div>
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">14.</span> Ciudad Fucsia</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span>
+            <div class="conditional" style="border-left-color: #ef4444; background-color: #3b1818;">
+                <div class="conditional-title" style="color: #fca5a5;">⚠️ ¡Atención!</div>
+                Si sale <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span>, cuidado de <strong>no</strong> utilizar Terremoto.
+            </div>
+        </div>
+    </div>
+
+    <div class="tp-bar">➔ TP + Curar y viajar a Teselia</div>
+
+    <!-- TESELIA -->
+    <div class="region-title">Teselia</div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">15.</span> Ciudad Porcelana</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> <span class="move-tag">Salpicar</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> <span class="move-tag">Ventisca</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">16.</span> Ciudad Loza</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> <span class="move-tag">Ventisca</span>
+            <div class="conditional">
+                <div class="conditional-title">Si sale Mismagius + Flygon:</div>
+                Usar <span class="action-tag">Protección</span> con <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">17.</span> Ciudad Gres <span style="font-weight: normal; font-size: 9pt; color: #94a3b8;">(3 Líderes)</span></div>
+        <div class="strategy">
+            <div style="margin-top: 5px;">
+                <strong>Fuego:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/blastoise.png"> Blastoise</span> <span class="move-tag">Salpicar</span>
+            </div>
+            <div style="margin-top: 8px;">
+                <strong>Agua:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span>
+                <ul>
+                    <li>Si sale Floatzel ➔ Cambiar <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> por <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> + Terremoto</li>
+                    <li>Si sale Stoutland + Gyarados ➔ <span class="move-tag">Vozarrón</span> + Cambiar <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> por <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span></li>
+                </ul>
+            </div>
+            <div style="margin-top: 8px;">
+                <strong>Planta:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">18.</span> Ciudad Mayólica</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span>
+        </div>
+    </div>
+
+    <div class="tp-bar">➔ TP + Curar</div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">19.</span> Ciudad Teja</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si NO sale Beartic:</div>
+                <ul>
+                    <li><strong>Turno 1:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Día Soleado</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+                    <li><strong>Resto de Turnos:</strong> <span class="move-tag">Avalancha</span> + <span class="move-tag">Estallido</span></li>
+                </ul>
+            </div>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si SÍ sale Beartic:</div>
+                <ul>
+                    <li><strong>Turno 1:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+                    <li><strong>Turno 2:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Día Soleado</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+                    <li><strong>Resto de Turnos:</strong> <span class="move-tag">Avalancha</span> + <span class="move-tag">Estallido</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">20.</span> Ciudad Caolín</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> <span class="move-tag">Ventisca</span>
+        </div>
+    </div>
+
+    <div class="tp-bar">➔ TP + Curar y viajar a Johto</div>
+
+    <!-- JOHTO -->
+    <div class="region-title">Johto</div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">21.</span> Ciudad Malva</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> <span class="move-tag">Ventisca</span>
+            <div class="conditional">
+                <div class="conditional-title">Si sale Pelipper:</div>
+                <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span> usa <span class="move-tag">Viento Hielo</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">22.</span> Pueblo Caoba</div>
+        <div class="strategy">
+            <ul>
+                <li><strong>Turno 1:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Día Soleado</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+                <li><strong>Resto de Turnos:</strong> <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> <span class="move-tag">Avalancha</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">23.</span> Ciudad Trigal</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> <span class="move-tag">Terremoto</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">24.</span> Pueblo Azalea</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/aerodactyl.png"> Aerodactyl</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si sale Scizor en Turno 1:</div>
+                <span class="action-tag">Protección</span> + <span class="move-tag">Estallido</span>
+            </div>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si en Turno 2 sale <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/tyranitar.png"> Tyranitar</span>:</div>
+                <span class="move-tag">Día Soleado</span> + <span class="move-tag">Estallido</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tp-bar">➔ TP + Curar</div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">25.</span> Ciudad Olivo</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> <span class="move-tag">Vozarrón</span> + 
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/typhlosion.png"> Typhlosion</span> <span class="move-tag">Estallido</span>
+        </div>
+    </div>
+
+    <div class="gym-card">
+        <div class="gym-header"><span class="gym-num">26.</span> Ciudad Orquídea</div>
+        <div class="strategy">
+            <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/togekiss.png"> Togekiss</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si no hay doble Intimidación:</div>
+                <span class="move-tag">Aire Afilado</span> + <span class="move-tag">Terremoto</span>
+            </div>
+            
+            <div class="conditional">
+                <div class="conditional-title">Si salen <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/granbull.png"> Granbull</span> + <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/hitmontop.png"> Hitmontop</span>:</div>
+                <span class="move-tag">Vozarrón</span> + Cambiar <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/excadrill.png"> Excadrill</span> por <span class="pkmn-inline"><img src="https://img.pokemondb.net/sprites/sword-shield/icon/vanilluxe.png"> Vanilluxe</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal-overlay" id="details-modal">
     <div class="modal-content">
         <button class="btn-toggle" style="position:absolute; top:20px; right:20px;" onclick="closeModal()">Cerrar</button>
@@ -878,98 +1264,159 @@
     function renderGym() {
         const tabs = document.getElementById('gymTabs');
         const content = document.getElementById('gymContent');
-        if (!tabs || !content) return;
+        if(!tabs) return;
         tabs.innerHTML = ''; content.innerHTML = '';
+        
         gymChars.forEach((char, i) => {
             const btn = document.createElement('button');
             btn.className = `tab-btn ${i === activeGymTab ? 'active' : ''}`;
             btn.innerText = char.name;
             btn.onclick = () => { activeGymTab = i; renderGym(); };
             tabs.appendChild(btn);
-            if (i === activeGymTab) {
-                const neto = (BASE_28_GYMS * char.multiplier) - char.itemCost;
-                content.innerHTML = `
-                    <div class="timer-display" id="gtimer-${i}">--:--:--</div>
-                    <div class="calc-grid">
-                        <div><small>POTENCIADOR</small>
-                            <select id="mult-${i}" onchange="updateGymCalc(${i})">
-                                <option value="1.5" ${char.multiplier == 1.5 ? 'selected' : ''}>50%</option>
-                                <option value="1.75" ${char.multiplier == 1.75 ? 'selected' : ''}>75%</option>
-                                <option value="2.0" ${char.multiplier == 2.0 ? 'selected' : ''}>100%</option>
-                            </select>
-                        </div>
-                        <div><small>GASTO ITEMS</small>
-                            <input type="number" id="cost-${i}" value="${char.itemCost}" oninput="updateGymCalc(${i})">
-                        </div>
-                        <div style="grid-column: span 2; text-align:center; padding-top:10px;">
-                            <span style="color:var(--green); font-weight:bold; font-size:1.4em;" id="neto-${i}">${new Intl.NumberFormat('es-ES').format(Math.floor(neto))} ¥</span>
-                        </div>
-                    </div>
-                    <button class="btn-main" id="gbtn-${i}" onclick="startGymRun(${i})">INICIAR RUTA</button>
-                    <button onclick="deleteChar('gym', ${i})" style="width:100%; background:none; border:none; color:var(--red); margin-top:15px; cursor:pointer; font-size:0.8em; opacity:0.5;">Eliminar Personaje</button>
-                `;
-            }
         });
+
+        const active = gymChars[activeGymTab];
+        if(active) {
+            const ms = active.nextAvailable - Date.now();
+            const disponible = ms <= 0;
+            let timeStr = "¡DISPONIBLE!";
+            if(!disponible) {
+                const h = Math.floor(ms / (1000*60*60));
+                const m = Math.floor((ms % (1000*60*60)) / (1000*60));
+                timeStr = `${h}h ${m}m`;
+            }
+
+            const neto = (BASE_28_GYMS * active.multiplier) - active.itemCost;
+
+            content.innerHTML = `
+                <div class="timer-display" style="color:${disponible ? 'var(--green)' : 'var(--gold)'}">${timeStr}</div>
+                <button class="btn-main" onclick="startGymRun(${activeGymTab})" ${!disponible ? 'disabled' : ''}>
+                    ${disponible ? 'Iniciar CD (18h)' : 'En Cooldown'}
+                </button>
+                <div class="calc-grid" style="margin-top:20px;">
+                    <div>
+                        <label style="font-size:0.85em; color:#888;">Multiplicador</label>
+                        <select id="mult-${activeGymTab}" onchange="updateGymCalc(${activeGymTab})">
+                            <option value="1" ${active.multiplier===1?'selected':''}>Sin Objeto (1.0x)</option>
+                            <option value="1.75" ${active.multiplier===1.75?'selected':''}>Mon. Amuleto / Incienso (1.75x)</option>
+                            <option value="2" ${active.multiplier===2?'selected':''}>Amuleto Riqueza 100% (2.0x)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:0.85em; color:#888;">Gastos (Peluches/Amuleto)</label>
+                        <input type="number" id="cost-${activeGymTab}" value="${active.itemCost}" oninput="updateGymCalc(${activeGymTab})">
+                    </div>
+                </div>
+                <div style="margin-top:15px; text-align:center; font-size:1.2em;">
+                    Ganancia Estimada: <b id="neto-${activeGymTab}" style="color:var(--green)">${new Intl.NumberFormat('es-ES').format(Math.floor(neto))} ¥</b>
+                </div>
+                <button onclick="deleteGymChar(${activeGymTab})" style="background:rgba(231,76,60,0.2); color:var(--red); border:1px solid var(--red); padding:8px; width:100%; margin-top:25px; border-radius:6px; cursor:pointer; font-weight:bold;">Eliminar Personaje</button>
+            `;
+        } else {
+            content.innerHTML = `<p style="text-align:center; color:#666;">No hay personajes registrados. Añade uno arriba.</p>`;
+        }
+    }
+
+    function deleteGymChar(i) {
+        if(confirm("¿Eliminar este personaje?")) {
+            gymChars.splice(i, 1);
+            activeGymTab = 0;
+            saveAll(); renderGym();
+        }
     }
 
     // --- FUNCIONES BAYAS ---
     function addBerryChar() {
         const name = document.getElementById('newCharBerry').value.trim();
         if(name) {
-            berryChars.push({name, nextWater:'', nextHarvest:'', logs:[]});
+            berryChars.push({name, nextWater:'--:--', nextHarvest:'--:--', logs:[]});
             document.getElementById('newCharBerry').value='';
             saveAll(); renderBerry();
         }
     }
 
-    function startBerryCycle(i) {
-        const tipo = document.getElementById(`berryType-${i}`).value;
+    function setBerryTimes(type) {
+        const active = berryChars[activeBerryTab];
+        if(!active) return;
         const ahora = new Date();
-        const isZanama = tipo === "Zanama";
-        const waterMin = isZanama ? 570 : 300; 
-        const harvestHr = isZanama ? 20 : 16;
-        const fWater = new Date(ahora.getTime() + waterMin * 60000);
-        const fHarvest = new Date(ahora.getTime() + harvestHr * 3600000);
-        const fMax = new Date(fHarvest.getTime() + 4 * 3600000);
-        const t = (d) => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-        berryChars[i].nextWater = t(fWater);
-        berryChars[i].nextHarvest = t(fHarvest);
-        berryChars[i].logs.unshift({ tipo, fecha: ahora.toLocaleDateString(), cosecha: t(fHarvest), riego: t(fWater), maxima: t(fMax) });
+        
+        let r1 = null, r2 = null, cosech = 0;
+        let logLabel = "";
+
+        if(type === '67') { cosech = 67; r1 = 22; r2 = 44; logLabel = "Baya 67h (Riegos +22h, +44h)"; }
+        else if(type === '44') { cosech = 44; r1 = 14; r2 = 29; logLabel = "Baya 44h (Riegos +14h, +29h)"; }
+
+        const format = (d) => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        
+        let tHarvest = new Date(ahora.getTime() + cosech*60*60*1000);
+        active.nextHarvest = format(tHarvest);
+
+        let tWater = new Date(ahora.getTime() + r1*60*60*1000);
+        active.nextWater = format(tWater);
+
+        let tWater2 = new Date(ahora.getTime() + r2*60*60*1000);
+
+        active.logs.unshift({
+            label: logLabel,
+            fecha: ahora.toLocaleDateString(),
+            riego: format(tWater),
+            cosecha: format(tHarvest)
+        });
+
+        triggerAlarm('info', `⏰ Planificado: Riego 1 a las ${format(tWater)}. Próximo a las ${format(tWater2)}.`);
         saveAll(); renderBerry();
     }
 
-    // --- RENDER BAYAS ---
     function renderBerry() {
         const tabs = document.getElementById('berryTabs');
         const content = document.getElementById('berryContent');
-        if (!tabs || !content) return;
+        if(!tabs) return;
         tabs.innerHTML = ''; content.innerHTML = '';
+
         berryChars.forEach((char, i) => {
             const btn = document.createElement('button');
             btn.className = `tab-btn ${i === activeBerryTab ? 'active' : ''}`;
             btn.innerText = char.name;
             btn.onclick = () => { activeBerryTab = i; renderBerry(); };
             tabs.appendChild(btn);
-            if (i === activeBerryTab) {
-                let logsHtml = char.logs.map((l, idx) => `
-                    <div class="log-item" onclick="selectBerryLog(${i}, ${idx})">
-                        <div><b>${l.tipo}</b> <small>(${l.fecha})</small><br>
-                        <span style="color:var(--green)">Cosecha: ${l.cosecha}</span>
-                        <span class="warning-text">Límite: ${l.maxima || '--'} ⚠️</span></div>
-                        <span class="del-log" onclick="event.stopPropagation(); deleteBerryLog(${i}, ${idx})">×</span>
-                    </div>`).join('');
-                content.innerHTML = `
-                    <div class="grid-timers">
-                        <div class="time-box"><small>PRÓX. RIEGO</small><br><b style="color:var(--blue)">${char.nextWater || '--:--'}</b></div>
-                        <div class="time-box"><small>COSECHA</small><br><b style="color:var(--green)">${char.nextHarvest || '--:--'}</b></div>
-                    </div>
-                    <select id="berryType-${i}"><option value="Extractora">Extractora (16h)</option><option value="Zanama">Zanama (20h)</option></select>
-                    <button class="btn-main" style="background:var(--blue)" onclick="startBerryCycle(${i})">🌱 REGISTRAR PLANTADO</button>
-                    <div class="history">${logsHtml || '<p style="text-align:center; opacity:0.5;">Sin registros</p>'}</div>
-                    <button onclick="deleteChar('berry', ${i})" style="width:100%; background:none; border:none; color:var(--red); margin-top:15px; cursor:pointer; font-size:0.8em; opacity:0.5;">Eliminar Cuenta</button>
-                `;
-            }
         });
+
+        const active = berryChars[activeBerryTab];
+        if(active) {
+            let logItems = (active.logs || []).map((l, idx) => `
+                <div class="log-item" onclick="selectBerryLog(${activeBerryTab}, ${idx})">
+                    <div>
+                        <b>${l.label}</b> <span style="color:#555; font-size:0.85em;">(${l.fecha})</span>
+                        <div style="font-size:0.85em; color:#888;">Riego: ${l.riego} | Cosecha: ${l.cosecha}</div>
+                    </div>
+                    <span class="del-log" onclick="event.stopPropagation(); deleteBerryLog(${activeBerryTab}, ${idx})">×</span>
+                </div>
+            `).join('');
+
+            content.innerHTML = `
+                <div class="grid-timers">
+                    <div class="time-box">
+                        <div style="font-size:0.85em; color:#888; text-transform:uppercase;">Próximo Riego</div>
+                        <div style="font-size:1.8em; font-weight:bold; color:var(--blue); margin-top:5px;">${active.nextWater}</div>
+                    </div>
+                    <div class="time-box" style="border-bottom-color:var(--green)">
+                        <div style="font-size:0.85em; color:#888; text-transform:uppercase;">Cosecha</div>
+                        <div style="font-size:1.8em; font-weight:bold; color:var(--green); margin-top:5px;">${active.nextHarvest}</div>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button class="btn-main" style="background:var(--blue); margin:0;" onclick="setBerryTimes('67')">Plantar 67h</button>
+                    <button class="btn-main" style="background:#2980b9; margin:0;" onclick="setBerryTimes('44')">Plantar 44h</button>
+                </div>
+                <div style="margin-top:20px;">
+                    <span style="color:#888; font-size:0.9em; font-weight:bold;">Historial de Cosechas:</span>
+                    <div class="history">${logItems || '<p style="color:#444; padding:10px; text-align:center;">No hay registros.</p>'}</div>
+                </div>
+                <button onclick="deleteBerryChar(${activeBerryTab})" style="background:rgba(231,76,60,0.2); color:var(--red); border:1px solid var(--red); padding:8px; width:100%; margin-top:25px; border-radius:6px; cursor:pointer; font-weight:bold;">Eliminar Cuenta</button>
+            `;
+        } else {
+            content.innerHTML = `<p style="text-align:center; color:#666;">No hay cuentas registradas. Añade una arriba.</p>`;
+        }
     }
 
     function deleteBerryLog(charIdx, logIdx) {
@@ -977,321 +1424,277 @@
         saveAll(); renderBerry();
     }
 
-    function deleteChar(type, i) {
-        if(!confirm('¿Seguro?')) return;
-        if(type === 'gym') { gymChars.splice(i,1); activeGymTab = 0; renderGym(); }
-        else { berryChars.splice(i,1); activeBerryTab = 0; renderBerry(); }
-        saveAll();
+    function deleteBerryChar(i) {
+        if(confirm("¿Eliminar esta cuenta de bayas?")) {
+            berryChars.splice(i, 1);
+            activeBerryTab = 0;
+            saveAll(); renderBerry();
+        }
     }
 
-    // --- NAVEGACIÓN GENERAL ---
+    // --- MANEJO DE SECCIONES GENERALES ---
     function showSection(id, btn) {
-        document.querySelectorAll('.section-container').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.section-container').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+        
         document.getElementById(id).classList.add('active');
         btn.classList.add('active');
-        
-        const sysPanel = document.getElementById('global-system-panel');
-        if (id === 'showcase-section' || id === 'redfarm-section') { sysPanel.style.display = 'none'; } 
-        else { sysPanel.style.display = 'flex'; }
     }
 
     function saveAll() {
         localStorage.setItem('pmmo_gym_v12', JSON.stringify(gymChars));
         localStorage.setItem('pmmo_berry_v12', JSON.stringify(berryChars));
-        
-        // Sincronización en tiempo real en la nube de Firebase
-        if (window.firebaseDbRef && window.firebaseSet) {
-            window.firebaseSet(window.firebaseDbRef, window.showcaseData);
-        }
     }
 
-    function updateTick() {
-        gymChars.forEach((char, i) => {
-            const el = document.getElementById(`gtimer-${i}`);
-            const btn = document.getElementById(`gbtn-${i}`);
-            if (!el) return;
-            const diff = char.nextAvailable - Date.now();
-            if (diff <= 0) { el.innerHTML = '<span style="color:var(--green)">¡LISTO!</span>'; if(btn) btn.disabled = false; } 
-            else {
-                const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
-                el.innerText = `${h}h ${m}m ${s}s`;
-                if(btn) btn.disabled = true;
-            }
-        });
-        checkNotifications();
-    }
-
-    // ==========================================================================
-    // --- LÓGICA DE SHINY SHOWCASE ---
-    // ==========================================================================
+    // --- LÓGICA CORE DE SHINY SHOWCASE ---
     function toggleAdminPanel() {
         const content = document.getElementById('admin-content');
         const btn = document.getElementById('toggle-btn');
-        content.style.display = content.style.display === 'none' ? 'block' : 'none';
-        btn.textContent = content.style.display === 'none' ? 'Mostrar Formularios' : 'Ocultar Formularios';
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            btn.innerText = 'Ocultar Formularios';
+        } else {
+            content.style.display = 'none';
+            btn.innerText = 'Mostrar Formularios';
+        }
     }
 
     function switchShowcaseTab(tab) {
-        document.getElementById('profile-form').style.display = tab === 'profile' ? 'grid' : 'none';
-        document.getElementById('pokemon-form').style.display = tab === 'pokemon' ? 'grid' : 'none';
         document.getElementById('tab-prof').classList.toggle('active', tab === 'profile');
         document.getElementById('tab-poke').classList.toggle('active', tab === 'pokemon');
+        document.getElementById('profile-form').style.display = tab === 'profile' ? 'grid' : 'none';
+        document.getElementById('pokemon-form').style.display = tab === 'pokemon' ? 'grid' : 'none';
     }
 
-    document.getElementById('profile-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const nameInput = document.getElementById('reg-username').value.trim();
-        if (!nameInput) return;
-
-        let avatarDataUrl = "https://img.pokemondb.net/sprites/trainers/emerald/red.png"; // Perfil por defecto
-        const fileElement = document.getElementById('reg-avatar');
-
-        if (fileElement && fileElement.files && fileElement.files[0]) {
-            try {
-                avatarDataUrl = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result);
-                    reader.onerror = () => reject(new Error("Error al procesar la imagen."));
-                    reader.readAsDataURL(fileElement.files[0]);
-                });
-            } catch (err) {
-                console.error("No se pudo cargar la imagen del avatar, se usará la default.", err);
-            }
-        }
-
-        if (!window.showcaseData) window.showcaseData = [];
-        
-        window.showcaseData.push({
-            name: nameInput,
-            avatar: avatarDataUrl,
-            pokemons: []
-        });
-
-        saveAll(); 
-        this.reset();
-        toggleAdminPanel();
-    });
-
-    document.getElementById('pokemon-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        let rawName = document.getElementById('poke-name').value.trim();
-        if (!rawName) return;
-        
-        let pokeNameLower = rawName.toLowerCase().replace(/\s+/g, '');
-        const userIdx = parseInt(document.getElementById('poke-user-select').value);
-        
-        const animatedSpriteURL = `https://play.pokemonshowdown.com/sprites/ani-shiny/${pokeNameLower}.gif`;
-
-        if (window.showcaseData[userIdx]) {
-            if (!window.showcaseData[userIdx].pokemons) {
-                window.showcaseData[userIdx].pokemons = [];
-            }
-            window.showcaseData[userIdx].pokemons.push({
-                name: rawName.charAt(0).toUpperCase() + rawName.slice(1),
-                sprite: animatedSpriteURL,
-                encounters: document.getElementById('poke-encounters').value || 0,
-                nature: document.getElementById('poke-nature').value,
-                location: document.getElementById('poke-location').value.trim() || 'Desconocido',
-                ivs: {
-                    hp: document.getElementById('poke-iv-hp').value || '?',
-                    atk: document.getElementById('poke-iv-atk').value || '?',
-                    def: document.getElementById('poke-iv-def').value || '?',
-                    spatk: document.getElementById('poke-iv-spatk').value || '?',
-                    spdef: document.getElementById('poke-iv-spdef').value || '?',
-                    speed: document.getElementById('poke-iv-speed').value || '?'
-                },
-                isFavorite: false
-            });
-
-            saveAll();
-            this.reset();
-            toggleAdminPanel();
-        }
-    });
-
-    function renderShowcase() {
-        const grid = document.getElementById('showcase-members-grid');
-        if (!grid) return;
+    function openModal(memberName, dataString) {
+        document.getElementById('modal-member-name').innerText = memberName;
+        const grid = document.getElementById('container-shinys-activos');
         grid.innerHTML = '';
         
-        if (!window.showcaseData || window.showcaseData.length === 0) return;
+        const decodedData = JSON.parse(decodeURIComponent(dataString));
+        if(!decodedData || decodedData.length === 0) {
+            grid.innerHTML = '<p style="color:var(--text-muted); grid-column:span 4; text-align:center; padding:20px;">Este entrenador aún no posee Shinies registrados.</p>';
+        } else {
+            decodedData.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'pokemon-card';
+                card.onclick = () => openPokemonModal(p);
+                
+                const cleanName = p.name.trim().toLowerCase();
+                const spriteUrl = `https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif`;
+                
+                card.innerHTML = `
+                    <button class="fav-btn ${p.isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavPokemon('${memberName}', '${p.id}')">
+                        <i class="fa-solid fa-star"></i>
+                    </button>
+                    <button class="delete-poke-btn" onclick="event.stopPropagation(); deletePokemon('${memberName}', '${p.id}')">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <img src="${spriteUrl}" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'">
+                    <p>${p.name.toUpperCase()}</p>
+                    <span>${p.encounters ? parseInt(p.encounters).toLocaleString() : 0} encounters</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        document.getElementById('details-modal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
+
+    function openPokemonModal(p) {
+        document.getElementById('pmodal-name').innerText = p.name.toUpperCase();
+        const cleanName = p.name.trim().toLowerCase();
+        document.getElementById('pmodal-sprite').src = `https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif`;
+        document.getElementById('pmodal-sprite').onerror = function() { this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'; };
         
-        window.showcaseData.forEach((user, idx) => {
-            if (!user) return;
-            const pList = user.pokemons || [];
-            const favorite = pList.find(p => p && p.isFavorite);
+        document.getElementById('pmodal-encounters').innerText = p.encounters ? parseInt(p.encounters).toLocaleString() : '0';
+        document.getElementById('pmodal-nature').innerText = p.nature || '---';
+        document.getElementById('pmodal-location').innerText = p.location || '---';
+        
+        document.getElementById('pmodal-iv-hp').innerText = p.ivHp || '0';
+        document.getElementById('pmodal-iv-atk').innerText = p.ivAtk || '0';
+        document.getElementById('pmodal-iv-def').innerText = p.ivDef || '0';
+        document.getElementById('pmodal-iv-spatk').innerText = p.ivSpatk || '0';
+        document.getElementById('pmodal-iv-spdef').innerText = p.ivSpdef || '0';
+        document.getElementById('pmodal-iv-speed').innerText = p.ivSpeed || '0';
+        
+        document.getElementById('pokemon-detail-modal').style.display = 'flex';
+    }
+
+    function closePokemonModal() { document.getElementById('pokemon-detail-modal').style.display = 'none'; }
+
+    function syncSelectOptions() {
+        const select = document.getElementById('poke-user-select');
+        if(!select) return;
+        select.innerHTML = '';
+        window.showcaseData.forEach(user => {
+            const opt = document.createElement('option');
+            opt.value = user.username; opt.innerText = user.username;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderShowcase(filter = "") {
+        const grid = document.getElementById('showcase-members-grid');
+        if(!grid) return;
+        grid.innerHTML = '';
+        
+        const sorted = [...window.showcaseData].sort((a,b) => (b.pokemons?.length || 0) - (a.pokemons?.length || 0));
+        
+        sorted.forEach(user => {
+            if(filter && !user.username.toLowerCase().includes(filter.toLowerCase())) return;
+            
             const card = document.createElement('div');
             card.className = 'member-card';
-            card.onclick = () => openModal(idx);
+            
+            const pList = user.pokemons || [];
+            const fav = pList.find(p => p.isFav) || pList[0];
+            const count = pList.length;
+            
+            let buddyHtml = '<div class="buddy-sprite"></div>';
+            if(fav) {
+                const cleanName = fav.name.trim().toLowerCase();
+                buddyHtml = `<div class="buddy-sprite"><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'"></div>`;
+            }
+            
+            const dataString = encodeURIComponent(JSON.stringify(pList));
+            card.onclick = () => openModal(user.username, dataString);
             
             card.innerHTML = `
-                <button class="delete-user-btn" onclick="deleteUser(event, ${idx})" title="Eliminar Entrenador">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
+                <button class="delete-user-btn" onclick="event.stopPropagation(); deleteUser('${user.username}')"><i class="fa-solid fa-user-minus"></i></button>
                 <div class="avatar-container">
-                    <div class="trainer-avatar"><img src="${user.avatar}"></div>
-                    ${favorite ? `<div class="buddy-sprite"><img src="${favorite.sprite}"></div>` : ''}
+                    <div class="trainer-avatar"><img src="${user.avatar || 'https://play.pokemmo.com/media/sprites/trainer/front/1.png'}"></div>
+                    ${buddyHtml}
                 </div>
-                <h3 style="color: #ffffff; font-size:1.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">${user.name}</h3>
-                <div><span class="badge-count">Shinys: ${pList.length}</span></div>
+                <h3 style="margin-bottom:6px; color:#fff;">${user.username}</h3>
+                <span class="badge-count">${count} Shinies</span>
             `;
             grid.appendChild(card);
         });
     }
 
-    function deleteUser(event, idx) {
-        event.stopPropagation();
-        if (confirm(`¿Eliminar a ${window.showcaseData[idx].name} y todos sus datos?`)) {
-            window.showcaseData.splice(idx, 1);
-            saveAll();
+    // --- OPERACIONES FIREBASE (NUEVO CONTROL CENTRALIZADO) ---
+    function uploadToFirebase() {
+        if(window.firebaseSet && window.firebaseDbRef) {
+            window.firebaseSet(window.firebaseDbRef, window.showcaseData)
+            .catch(e => console.error("Error guardando base remota: ", e));
         }
     }
 
-    function openModal(userIdx) {
-        userIdx = parseInt(userIdx);
-        const user = window.showcaseData[userIdx];
-        if (!user) return;
-
-        document.getElementById('modal-member-name').innerText = user.name;
-        const container = document.getElementById('container-shinys-activos');
-        container.innerHTML = '';
-        
-        const pList = user.pokemons || [];
-        pList.forEach((poke, pIdx) => {
-            if (!poke) return;
-            const pCard = document.createElement('div');
-            pCard.className = 'pokemon-card';
-            pCard.style.cursor = 'pointer';
-            pCard.setAttribute('onclick', `openPokemonDetailModal(${userIdx}, ${pIdx})`);
-            
-            pCard.innerHTML = `
-                <button class="fav-btn ${poke.isFavorite ? 'active' : ''}" 
-                        onclick="toggleFavorite(event, ${userIdx}, ${pIdx})">
-                    <i class="fa-${poke.isFavorite ? 'solid' : 'regular'} fa-star"></i>
-                </button>
-                <button class="delete-poke-btn" onclick="deletePokemon(event, ${userIdx}, ${pIdx})" title="Eliminar Pokémon">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-                <img src="${poke.sprite}">
-                <p>${poke.name}</p>
-                <span style="font-weight: bold; color: var(--gold);">${poke.encounters} Enc.</span>
-            `;
-            container.appendChild(pCard);
-        });
-        document.getElementById('details-modal').style.display = 'flex';
-    }
-
-    function deletePokemon(event, userIdx, pIdx) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        userIdx = parseInt(userIdx);
-        pIdx = parseInt(pIdx);
-
-        const pokemonName = window.showcaseData[userIdx].pokemons[pIdx].name;
-        if (confirm(`¿Estás seguro de eliminar a este ${pokemonName} shiny?`)) {
-            window.showcaseData[userIdx].pokemons.splice(pIdx, 1);
-            saveAll();
-            openModal(userIdx);
+    function deleteUser(username) {
+        if(confirm(`¿Estás seguro de que deseas eliminar al entrenador ${username} y todos sus pokémon?`)) {
+            window.showcaseData = window.showcaseData.filter(u => u.username !== username);
+            uploadToFirebase();
         }
     }
 
-    function openPokemonDetailModal(userIdx, pIdx) {
-        userIdx = parseInt(userIdx);
-        pIdx = parseInt(pIdx);
-        const pokemon = window.showcaseData[userIdx].pokemons[pIdx];
-        if (!pokemon) return;
-
-        document.getElementById('pmodal-name').innerText = pokemon.name;
-        document.getElementById('pmodal-sprite').src = pokemon.sprite;
-        document.getElementById('pmodal-encounters').innerText = pokemon.encounters;
-        document.getElementById('pmodal-nature').innerText = pokemon.nature || 'No especificada';
-        document.getElementById('pmodal-location').innerText = pokemon.location || 'Desconocido';
-        
-        const ivs = pokemon.ivs || { hp: '?', atk: '?', def: '?', spatk: '?', spdef: '?', speed: '?' };
-        document.getElementById('pmodal-iv-hp').innerText = ivs.hp || '?';
-        document.getElementById('pmodal-iv-atk').innerText = ivs.atk || '?';
-        document.getElementById('pmodal-iv-def').innerText = ivs.def || '?';
-        document.getElementById('pmodal-iv-spatk').innerText = ivs.spatk || '?';
-        document.getElementById('pmodal-iv-spdef').innerText = ivs.spdef || '?';
-        document.getElementById('pmodal-iv-speed').innerText = ivs.speed || '?';
-
-        document.getElementById('pokemon-detail-modal').style.display = 'flex';
-    }
-
-    function closePokemonModal() {
-        document.getElementById('pokemon-detail-modal').style.display = 'none';
-    }
-
-    function toggleFavorite(event, userIdx, pIdx) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
+    function deletePokemon(username, pokeId) {
+        if(confirm("¿Eliminar este pokémon del registro?")) {
+            const user = window.showcaseData.find(u => u.username === username);
+            if(user && user.pokemons) {
+                user.pokemons = user.pokemons.filter(p => p.id !== pokeId);
+                uploadToFirebase();
+                const updatedDataStr = encodeURIComponent(JSON.stringify(user.pokemons));
+                openModal(username, updatedDataStr); // Refrescar modal activo
+            }
         }
-        userIdx = parseInt(userIdx);
-        pIdx = parseInt(pIdx);
+    }
 
-        if (window.showcaseData[userIdx] && window.showcaseData[userIdx].pokemons) {
-            window.showcaseData[userIdx].pokemons.forEach((p, i) => {
-                if (p) p.isFavorite = (i === pIdx) ? !p.isFavorite : false;
+    function toggleFavPokemon(username, pokeId) {
+        const user = window.showcaseData.find(u => u.username === username);
+        if(user && user.pokemons) {
+            user.pokemons.forEach(p => {
+                if(p.id === pokeId) p.isFav = !p.isFav;
+                else if(p.isFav) p.isFav = false; // Solo uno puede ser favorito
             });
-            
-            saveAll();
-            openModal(userIdx);
+            uploadToFirebase();
+            const updatedDataStr = encodeURIComponent(JSON.stringify(user.pokemons));
+            openModal(username, updatedDataStr);
         }
     }
 
-    function updateUserSelect() {
-        const select = document.getElementById('poke-user-select');
-        if (!select) return;
-        select.innerHTML = window.showcaseData.map((u, i) => u ? `<option value="${i}">${u.name}</option>` : '').join('');
-    }
+    // --- LISTENERS DE FORMULARIOS ---
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializar vistas clásicas locales
+        renderGym(); renderBerry();
+        setInterval(renderGym, 30000); // Refrescar Relojes cada 30s
+        setInterval(checkNotifications, 15000); // Comprobar alarmas cada 15s
 
-    function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
-    
-    document.getElementById('search-name').addEventListener('input', function() {
-        const val = this.value.toLowerCase();
-        document.querySelectorAll('.member-card').forEach(c => {
-            c.classList.toggle('hidden', !c.querySelector('h3').innerText.toLowerCase().includes(val));
+        // Buscar actualizaciones en tiempo real de Firebase
+        let checkFbInterval = setInterval(() => {
+            if(window.firebaseOnValue && window.firebaseDbRef) {
+                clearInterval(checkFbInterval);
+                window.firebaseOnValue(window.firebaseDbRef, (snapshot) => {
+                    const data = snapshot.val();
+                    window.showcaseData = data ? Object.values(data) : [];
+                    syncSelectOptions();
+                    renderShowcase();
+                });
+            }
+        }, 500);
+
+        // Registro de Entrenadores
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('reg-username').value.trim();
+            if(!nameInput) return;
+
+            if(window.showcaseData.some(u => u.username.toLowerCase() === nameInput.toLowerCase())) {
+                alert("Ese entrenador ya se encuentra registrado.");
+                return;
+            }
+
+            const avatarFile = document.getElementById('reg-avatar').files[0];
+            const proceedSave = (avatarBase64 = null) => {
+                window.showcaseData.push({ username: nameInput, avatar: avatarBase64, pokemons: [] });
+                uploadToFirebase();
+                document.getElementById('profile-form').reset();
+                alert(`¡Entrenador ${nameInput} añadido correctamente!`);
+            };
+
+            if(avatarFile) {
+                const reader = new FileReader();
+                reader.onloadend = () => proceedSave(reader.result);
+                reader.readAsDataURL(avatarFile);
+            } else { proceedSave(); }
+        });
+
+        // Registro de Pokémon Shiny
+        document.getElementById('pokemon-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userTarget = document.getElementById('poke-user-select').value;
+            const pName = document.getElementById('poke-name').value.trim();
+            if(!userTarget || !pName) return;
+
+            const user = window.showcaseData.find(u => u.username === userTarget);
+            if(user) {
+                if(!user.pokemons) user.pokemons = [];
+                user.pokemons.push({
+                    id: 'poke_' + Date.now() + '_' + Math.floor(Math.random()*1000),
+                    name: pName,
+                    nature: document.getElementById('poke-nature').value,
+                    location: document.getElementById('poke-location').value.trim() || 'Desconocido',
+                    encounters: document.getElementById('poke-encounters').value || '0',
+                    ivHp: document.getElementById('poke-iv-hp').value || '0',
+                    ivAtk: document.getElementById('poke-iv-atk').value || '0',
+                    ivDef: document.getElementById('poke-iv-def').value || '0',
+                    ivSpatk: document.getElementById('poke-iv-spatk').value || '0',
+                    ivSpdef: document.getElementById('poke-iv-spdef').value || '0',
+                    ivSpeed: document.getElementById('poke-iv-speed').value || '0',
+                    isFav: false
+                });
+                uploadToFirebase();
+                document.getElementById('pokemon-form').reset();
+                alert(`✨ ¡${pName.toUpperCase()} Shiny registrado para ${userTarget}!`);
+            }
+        });
+
+        // Barra de Búsqueda Dinámica
+        document.getElementById('search-name').addEventListener('input', function(e) {
+            renderShowcase(e.target.value);
         });
     });
-
-    function vincularFirebaseShowcase() {
-        if (window.firebaseDbRef && window.firebaseOnValue) {
-            window.firebaseOnValue(window.firebaseDbRef, (snapshot) => {
-                const data = snapshot.val();
-                
-                if (data && !Array.isArray(data)) {
-                    window.showcaseData = Object.values(data);
-                } else {
-                    window.showcaseData = data || [];
-                }
-                
-                renderShowcase();
-                updateUserSelect();
-                
-                const detailModal = document.getElementById('details-modal');
-                if (detailModal && detailModal.style.display === 'flex') {
-                    const activeHeader = document.getElementById('modal-member-name').innerText;
-                    const uIdx = window.showcaseData.findIndex(u => u && u.name === activeHeader);
-                    if (uIdx !== -1) openModal(uIdx);
-                }
-            });
-        } else {
-            setTimeout(vincularFirebaseShowcase, 50);
-        }
-    }
-
-    window.onload = () => { 
-        renderGym(); 
-        renderBerry(); 
-        vincularFirebaseShowcase();
-        setInterval(updateTick, 1000); 
-    };
 </script>
 </body>
 </html>
