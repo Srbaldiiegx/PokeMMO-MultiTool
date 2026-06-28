@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeMMO Ultimate Toolkit v4.3</title>
+    <title>PokeMMO Ultimate Toolkit By SrbalDiiegx</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -1336,36 +1336,52 @@
     }
 
     function setBerryTimes(type) {
-        const active = berryChars[activeBerryTab];
-        if(!active) return;
-        const ahora = new Date();
-        
-        let r1 = null, r2 = null, cosech = 0;
-        let logLabel = "";
+    const active = berryChars[activeBerryTab];
+    if(!active) return;
+    const ahora = new Date();
+    
+    let nombreBaya = "";
+    let tiempoRiego = 0;
+    let tiempoCosecha = 0;
+    let tiempoExtra = 0; // Para el margen de recogida
 
-        if(type === '67') { cosech = 67; r1 = 22; r2 = 44; logLabel = "Baya 67h (Riegos +22h, +44h)"; }
-        else if(type === '44') { cosech = 44; r1 = 14; r2 = 29; logLabel = "Baya 44h (Riegos +14h, +29h)"; }
-
-        const format = (d) => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-        
-        let tHarvest = new Date(ahora.getTime() + cosech*60*60*1000);
-        active.nextHarvest = format(tHarvest);
-
-        let tWater = new Date(ahora.getTime() + r1*60*60*1000);
-        active.nextWater = format(tWater);
-
-        let tWater2 = new Date(ahora.getTime() + r2*60*60*1000);
-
-        active.logs.unshift({
-            label: logLabel,
-            fecha: ahora.toLocaleDateString(),
-            riego: format(tWater),
-            cosecha: format(tHarvest)
-        });
-
-        triggerAlarm('info', `⏰ Planificado: Riego 1 a las ${format(tWater)}. Próximo a las ${format(tWater2)}.`);
-        saveAll(); renderBerry();
+    if(type === 'extractoras') {
+        nombreBaya = "Extractoras";
+        tiempoRiego = 5;
+        tiempoCosecha = 16;
+        tiempoExtra = 4;
+    } else if(type === 'zanama') {
+        nombreBaya = "Zanama";
+        tiempoRiego = 0; // Se riegan al plantar
+        tiempoCosecha = 20;
+        // Se riegan de nuevo a las 9 horas
     }
+
+    const format = (d) => d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    
+    // Cálculo de tiempos
+    let tHarvest = new Date(ahora.getTime() + tiempoCosecha * 60 * 60 * 1000);
+    active.nextHarvest = format(tHarvest);
+
+    // Lógica específica de riego
+    if(type === 'extractoras') {
+        let tRiego = new Date(ahora.getTime() + 5 * 60 * 60 * 1000);
+        active.nextWater = format(tRiego);
+    } else {
+        // Zanama: Riego inicial (ahora) + riego a las 9h
+        let tRiego2 = new Date(ahora.getTime() + 9 * 60 * 60 * 1000);
+        active.nextWater = `Ahora y ${format(tRiego2)}`;
+    }
+
+    active.logs.unshift({
+        label: `${nombreBaya} (Cosecha: ${tiempoCosecha}h)`,
+        fecha: ahora.toLocaleDateString(),
+        riego: active.nextWater,
+        cosecha: active.nextHarvest
+    });
+
+    saveAll(); renderBerry();
+}
 
     function renderBerry() {
         const tabs = document.getElementById('berryTabs');
@@ -1405,8 +1421,8 @@
                     </div>
                 </div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <button class="btn-main" style="background:var(--blue); margin:0;" onclick="setBerryTimes('67')">Plantar 67h</button>
-                    <button class="btn-main" style="background:#2980b9; margin:0;" onclick="setBerryTimes('44')">Plantar 44h</button>
+                   <button class="btn-main" style="background:var(--blue); margin:0;" onclick="setBerryTimes('extractoras')">Plantar Extractoras</button>
+                    <button class="btn-main" style="background:#e67e22; margin:0;" onclick="setBerryTimes('zanama')">Plantar Zanama</button>
                 </div>
                 <div style="margin-top:20px;">
                     <span style="color:#888; font-size:0.9em; font-weight:bold;">Historial de Cosechas:</span>
