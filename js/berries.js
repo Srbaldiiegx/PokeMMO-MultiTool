@@ -60,6 +60,12 @@
 
     const active = berryChars[activeBerryTab];
     if(active) {
+        active.logs = Array.isArray(active.logs) ? active.logs : [];
+        if (active.logs.length === 0 && (active.nextWater !== '--:--' || active.nextHarvest !== '--:--')) {
+            resetBerryTimers(active);
+            saveAll();
+        }
+
         let logItems = (active.logs || []).map((l, idx) => `
             <div class="log-item" onclick="selectBerryLog(${activeBerryTab}, ${idx})">
                 <div>
@@ -101,8 +107,17 @@
     }
 }
 
+    function resetBerryTimers(character) {
+        character.nextWater = '--:--';
+        character.nextHarvest = '--:--';
+    }
+
     function deleteBerryLog(charIdx, logIdx) {
-        berryChars[charIdx].logs.splice(logIdx, 1);
+        const character = berryChars[charIdx];
+        if (!character || !Array.isArray(character.logs)) return;
+
+        character.logs.splice(logIdx, 1);
+        resetBerryTimers(character);
         saveAll(); renderBerry();
     }
 

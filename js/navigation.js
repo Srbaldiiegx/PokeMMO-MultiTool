@@ -4,6 +4,11 @@
         
         document.getElementById(id).classList.add('active');
         btn.classList.add('active');
+
+        const alarmPanel = document.getElementById('global-system-panel');
+        if (alarmPanel) {
+            alarmPanel.classList.toggle('is-visible', id === 'berry-section');
+        }
     }
 
     function saveAll() {

@@ -60,6 +60,11 @@
     function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
 
     function openPokemonModal(p) {
+        const modal = document.getElementById('pokemon-detail-modal');
+        if (modal.parentElement !== document.body) {
+            document.body.appendChild(modal);
+        }
+
         document.getElementById('pmodal-name').innerText = p.name.toUpperCase();
         const cleanName = p.name.trim().toLowerCase();
         document.getElementById('pmodal-sprite').src = `https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif`;
@@ -76,7 +81,7 @@
         document.getElementById('pmodal-iv-spdef').innerText = p.ivSpdef || '0';
         document.getElementById('pmodal-iv-speed').innerText = p.ivSpeed || '0';
         
-        document.getElementById('pokemon-detail-modal').style.display = 'flex';
+        modal.style.display = 'flex';
     }
 
     function closePokemonModal() { document.getElementById('pokemon-detail-modal').style.display = 'none'; }
