@@ -25,14 +25,21 @@ function getProfile(profileId) {
     return window.showcaseData.find(profile => profile.id === profileId);
 }
 
-function saveProfile(profile) {
+async function saveProfile(profile) {
     if (!canManageProfile(profile)) {
-        alert('No tienes permiso para modificar este perfil.');
-        return;
+        throw new Error('No tienes permiso para modificar este perfil.');
     }
     const { id, ...data } = profile;
-    window.firebaseSet(window.firebaseRef(window.firebaseDb, `showcaseData/${id}`), data)
-        .catch(error => console.error('Error al guardar el perfil:', error));
+    try {
+        await window.firebaseSet(window.firebaseRef(window.firebaseDb, `showcaseData/${id}`), data);
+    } catch (error) {
+        console.error('Error al guardar el perfil:', error);
+        const message = error.code === 'PERMISSION_DENIED'
+            ? 'Firebase ha bloqueado el guardado. Publica las reglas de firebase-rules.json en Realtime Database.'
+            : 'No se pudo guardar el perfil. Comprueba tu conexión e inténtalo de nuevo.';
+        alert(message);
+        throw error;
+    }
 }
 
 function openModal(profile) {

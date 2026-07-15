@@ -32,6 +32,16 @@ document.dispatchEvent(new CustomEvent("firebase-ready"));
 function applyAuthState(user) {
     window.currentUser = user;
     window.isAdmin = Boolean(user && user.email && user.email.toLowerCase() === ADMIN_EMAIL);
+
+    // El acceso puede completarse antes de que otros scripts procesen el evento.
+    // Actualizamos la puerta visual aquí mismo para no obligar a recargar la página.
+    const gate = document.getElementById('auth-gate');
+    const appShell = document.getElementById('app-shell');
+    if (gate && appShell) {
+        gate.hidden = Boolean(user);
+        appShell.hidden = !user;
+    }
+
     document.dispatchEvent(new CustomEvent("auth-state-changed", { detail: user }));
 }
 

@@ -47,12 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
             avatar,
             pokemons: existing?.pokemons || []
         };
-        saveProfile(profile);
-        document.getElementById('profile-form').reset();
-        alert(existing ? 'Tu perfil se ha actualizado.' : 'Tu perfil se ha creado.');
+        try {
+            await saveProfile(profile);
+            document.getElementById('profile-form').reset();
+            alert(existing ? 'Tu perfil se ha actualizado.' : 'Tu perfil se ha creado.');
+        } catch (error) {
+            // saveProfile ya muestra un mensaje claro al usuario.
+        }
     });
 
-    document.getElementById('pokemon-form').addEventListener('submit', (event) => {
+    document.getElementById('pokemon-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         const profileId = document.getElementById('poke-user-select').value;
         const pokemonName = document.getElementById('poke-name').value.trim();
@@ -75,9 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
             ivSpeed: document.getElementById('poke-iv-speed').value || '0',
             isFav: false
         });
-        saveProfile(profile);
-        document.getElementById('pokemon-form').reset();
-        alert(`✨ ${pokemonName.toUpperCase()} se ha registrado para ${profile.username}.`);
+        try {
+            await saveProfile(profile);
+            document.getElementById('pokemon-form').reset();
+            alert(`✨ ${pokemonName.toUpperCase()} se ha registrado para ${profile.username}.`);
+        } catch (error) {
+            profile.pokemons.pop();
+        }
     });
 
     document.getElementById('search-name').addEventListener('input', (event) => renderShowcase(event.target.value));
