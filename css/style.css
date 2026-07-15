@@ -48,6 +48,7 @@
 
         .auth-gate { position: fixed; inset: 0; z-index: 6000; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at top, rgba(52, 152, 219, .22), transparent 45%), rgba(8, 11, 20, .96); }
         #app-shell { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        #auth-gate[hidden], #app-shell[hidden] { display: none !important; }
         .auth-card { width: min(100%, 430px); padding: 36px; background: rgba(22, 25, 37, .96); border: 1px solid rgba(255,255,255,.12); border-radius: 22px; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
         .auth-brand { margin-bottom: 26px; color: var(--showcase-accent); font-size: .85rem; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase; }
         .auth-brand span { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-right: 8px; border-radius: 50%; background: var(--showcase-accent); color: #111; }
