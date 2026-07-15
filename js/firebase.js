@@ -29,16 +29,29 @@ window.isAdmin = false;
 window.firebaseReady = true;
 document.dispatchEvent(new CustomEvent("firebase-ready"));
 
+function applyAuthState(user) {
+    window.currentUser = user;
+    window.isAdmin = Boolean(user && user.email && user.email.toLowerCase() === ADMIN_EMAIL);
+    document.dispatchEvent(new CustomEvent("auth-state-changed", { detail: user }));
+}
+
 window.signInWithGoogle = async () => {
-    return signInWithPopup(auth, provider);
+    const credential = await signInWithPopup(auth, provider);
+    applyAuthState(credential.user);
+    return credential;
 };
 
-window.signInWithEmail = async (email, password) => signInWithEmailAndPassword(auth, email, password);
+window.signInWithEmail = async (email, password) => {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    applyAuthState(credential.user);
+    return credential;
+};
 
 window.registerWithEmail = async (name, email, password) => {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     if (name) await updateProfile(credential.user, { displayName: name });
     await sendEmailVerification(credential.user);
+    applyAuthState(auth.currentUser);
 };
 
 window.signOutUser = async () => {
@@ -50,7 +63,5 @@ window.signOutUser = async () => {
 };
 
 onAuthStateChanged(auth, (user) => {
-    window.currentUser = user;
-    window.isAdmin = Boolean(user && user.email && user.email.toLowerCase() === ADMIN_EMAIL);
-    document.dispatchEvent(new CustomEvent("auth-state-changed", { detail: user }));
+    applyAuthState(user);
 });
