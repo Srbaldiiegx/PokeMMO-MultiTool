@@ -10,6 +10,25 @@
 </head>
 <body>
 
+<div id="auth-gate" class="auth-gate">
+    <section class="auth-card" aria-labelledby="auth-title">
+        <div class="auth-brand"><span>✦</span> PokeMMO Toolkit</div>
+        <h1 id="auth-title">Bienvenido de nuevo</h1>
+        <p id="auth-description">Inicia sesión para acceder a tu PokeMMO Toolkit.</p>
+        <form id="auth-form" class="auth-form">
+            <label id="auth-name-group" hidden>Nombre de entrenador<input id="auth-name-input" type="text" maxlength="30" placeholder="Ej. Red"></label>
+            <label>Correo electrónico<input id="auth-email" type="email" required autocomplete="email" placeholder="entrenador@email.com"></label>
+            <label>Contraseña<input id="auth-password" type="password" required minlength="6" autocomplete="current-password" placeholder="Mínimo 6 caracteres"></label>
+            <p id="auth-error" class="auth-error" aria-live="polite"></p>
+            <button id="auth-submit-btn" class="auth-primary" type="submit">Iniciar sesión</button>
+        </form>
+        <div class="auth-divider"><span>o continúa con</span></div>
+        <button id="google-login-btn" class="auth-google" type="button"><i class="fa-brands fa-google"></i> Google</button>
+        <p class="auth-switch"><span id="auth-switch-text">¿Aún no tienes una cuenta?</span> <button id="auth-switch-btn" type="button">Regístrate</button></p>
+    </section>
+</div>
+
+<div id="app-shell" hidden>
 <div id="alert-container"></div>
 
 <nav class="main-nav">
@@ -27,6 +46,12 @@
         </div>
     </div>
 </nav>
+
+<div id="auth-status" class="auth-status">
+    <img id="auth-avatar" src="" alt="">
+    <div><strong id="auth-name"></strong><span id="auth-role"></span></div>
+    <button id="logout-btn" type="button">Cerrar sesión</button>
+</div>
 
 <div class="system-panel" id="global-system-panel">
     <span>⚙️ <b>Control de Alarmas:</b></span>
@@ -832,5 +857,7 @@
 <script src="js/showcase.js"></script>
 <script src="js/farm.js"></script>
 <script src="js/init.js"></script>
+</div>
+<script src="js/auth.js"></script>
 </body>
 </html>

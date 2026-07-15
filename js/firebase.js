@@ -1,24 +1,59 @@
-﻿
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDQimdGIIOu-blPbtU63MrGPpMbDwMAgGw",
-            authDomain: "pokemmo-tool.firebaseapp.com",
-            databaseURL: "https://pokemmo-tool-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "pokemmo-tool",
-            storageBucket: "pokemmo-tool.firebasestorage.app",
-            messagingSenderId: "873669256817",
-            appId: "1:873669256817:web:702da03a997cd809355dd0",
-            measurementId: "G-ZV2HPTFDJ5"
-        };
+const firebaseConfig = {
+    apiKey: "AIzaSyDQimdGIIOu-blPbtU63MrGPpMbDwMAgGw",
+    authDomain: "pokemmo-tool.firebaseapp.com",
+    databaseURL: "https://pokemmo-tool-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "pokemmo-tool",
+    storageBucket: "pokemmo-tool.firebasestorage.app",
+    messagingSenderId: "873669256817",
+    appId: "1:873669256817:web:702da03a997cd809355dd0",
+    measurementId: "G-ZV2HPTFDJ5"
+};
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const showcaseRef = ref(db, 'showcaseData');
+const ADMIN_EMAIL = "diegoasti13@gmail.com";
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-        // Hacer referencias y métodos accesibles al script clásico inferior
-        window.firebaseDbRef = showcaseRef;
-        window.firebaseSet = set;
-        window.firebaseOnValue = onValue;
-    
+window.firebaseShowcaseRef = ref(db, "showcaseData");
+window.firebaseRef = ref;
+window.firebaseDb = db;
+window.firebaseSet = set;
+window.firebaseOnValue = onValue;
+window.currentUser = null;
+window.isAdmin = false;
+
+window.signInWithGoogle = async () => {
+    try {
+        await signInWithPopup(auth, provider);
+    } catch (error) {
+        console.error("No se pudo iniciar sesión:", error);
+        alert("No se pudo iniciar sesión con Google. Vuelve a intentarlo.");
+    }
+};
+
+window.signInWithEmail = async (email, password) => signInWithEmailAndPassword(auth, email, password);
+
+window.registerWithEmail = async (name, email, password) => {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    if (name) await updateProfile(credential.user, { displayName: name });
+    await sendEmailVerification(credential.user);
+};
+
+window.signOutUser = async () => {
+    try {
+        await signOut(auth);
+    } catch (error) {
+        console.error("No se pudo cerrar la sesión:", error);
+    }
+};
+
+onAuthStateChanged(auth, (user) => {
+    window.currentUser = user;
+    window.isAdmin = Boolean(user && user.email && user.email.toLowerCase() === ADMIN_EMAIL);
+    document.dispatchEvent(new CustomEvent("auth-state-changed", { detail: user }));
+});
