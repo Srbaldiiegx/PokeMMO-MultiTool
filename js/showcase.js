@@ -187,7 +187,10 @@ function renderShowcase(filter = '') {
         const buddyHtml = favorite ? `<div class="buddy-sprite"><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanBuddyName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'"></div>` : '<div class="buddy-sprite"></div>';
         const deleteButton = canEdit ? `<button class="edit-user-btn" title="Editar perfil" onclick="event.stopPropagation(); editProfile('${profile.id}')"><i class="fa-solid fa-pen"></i></button><button class="delete-user-btn" onclick="event.stopPropagation(); deleteUser('${profile.id}')"><i class="fa-solid fa-user-minus"></i></button>` : '';
         const ownerBadge = window.isAdmin && profile.ownerId !== window.currentUser?.uid ? '<span class="owner-badge">Perfil ajeno</span>' : '';
-        const customBadges = (profile.badges || []).map(badge => `<span class="custom-badge" style="color:${badge.color || '#ffcc00'}">${badge.icon || ''} ${badge.label}</span>`).join('');
+        const customBadges = (profile.badges || []).map(badge => {
+            const removeButton = window.isAdmin ? `<button class="delete-badge-btn" title="Eliminar badge" onclick="event.stopPropagation(); deleteBadge('${profile.id}', '${badge.id}')"><i class="fa-solid fa-xmark"></i></button>` : '';
+            return `<span class="custom-badge" style="color:${badge.color || '#ffcc00'}">${badge.icon || ''} ${badge.label}${removeButton}</span>`;
+        }).join('');
 
         card.innerHTML = `${deleteButton}<div class="avatar-container"><div class="trainer-avatar"><img src="${profile.avatar || 'https://play.pokemmo.com/media/sprites/trainer/front/1.png'}"></div>${buddyHtml}</div><h3 style="margin-bottom:6px; color:#fff;">${profile.username}</h3><span class="badge-count">${pList.length} Shinies</span>${ownerBadge}<div class="custom-badges">${customBadges}</div>`;
         grid.appendChild(card);
@@ -200,6 +203,16 @@ function deleteUser(profileId) {
     if (confirm(`¿Eliminar el perfil de ${profile.username} y todos sus Pokémon?`)) {
         window.firebaseSet(window.firebaseRef(window.firebaseDb, `showcaseData/${profileId}`), null);
     }
+}
+
+function deleteBadge(profileId, badgeId) {
+    const profile = getProfile(profileId);
+    if (!window.isAdmin || !profile) return;
+    const badge = (profile.badges || []).find(item => item.id === badgeId);
+    if (!badge || !confirm(`¿Eliminar el badge "${badge.label}" de ${profile.username}?`)) return;
+    const originalBadges = profile.badges;
+    profile.badges = profile.badges.filter(item => item.id !== badgeId);
+    saveProfile(profile).catch(() => { profile.badges = originalBadges; });
 }
 
 function deletePokemon(profileId, pokemonId) {
@@ -254,3 +267,4 @@ function editPokemon(profileId, pokemonId) {
 function resetProfileForm() { const form = document.getElementById('profile-form'); form.reset(); delete form.dataset.editId; document.getElementById('profile-submit-btn').textContent = 'Guardar Perfil'; document.getElementById('profile-cancel-btn').hidden = true; }
 function resetPokemonForm() { const form = document.getElementById('pokemon-form'); form.reset(); delete form.dataset.editId; document.getElementById('pokemon-submit-btn').textContent = 'Añadir Shiny'; document.getElementById('pokemon-cancel-btn').hidden = true; }
 window.editProfile = editProfile; window.editPokemon = editPokemon; window.resetProfileForm = resetProfileForm; window.resetPokemonForm = resetPokemonForm;
+window.deleteBadge = deleteBadge;
