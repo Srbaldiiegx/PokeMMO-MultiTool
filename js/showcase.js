@@ -58,7 +58,7 @@ function formatPokemonDisplayName(name) {
     if (lowerName === 'mr-mime' || lowerName === 'mr mime') return 'Mr. Mime';
     if (lowerName === 'ho-oh' || lowerName === 'hooh') return 'Ho-Oh';
 
-    // Limpieza forzada por si el nombre incluye guiones (ej. shellos-east -> shellos)
+    // Limpieza automática para Pokémon con formas (ej: shellos-east -> shellos)
     const baseName = lowerName.split('-')[0];
     return baseName.charAt(0).toUpperCase() + baseName.slice(1);
 }
