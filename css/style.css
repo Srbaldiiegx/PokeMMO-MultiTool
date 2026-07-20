@@ -303,6 +303,8 @@
 .owner-badge { display: inline-block; margin: 9px 0 0; padding: 3px 8px; border: 1px solid rgba(255,204,0,.45); border-radius: 99px; color: var(--showcase-accent); font-size: .68rem; font-weight: 800; }
 .custom-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 9px; }
 .custom-badge { padding: 3px 8px; border: 1px solid currentColor; border-radius: 99px; font-size: .68rem; font-weight: 800; background: rgba(0,0,0,.3); }
+.delete-badge-btn { margin-left: 5px; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font-size: .75rem; line-height: 1; opacity: .7; }
+.delete-badge-btn:hover { opacity: 1; color: var(--danger); }
 .edit-poke-btn { position: absolute; right: 26px; top: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; z-index: 10; }
 .edit-poke-btn:hover { color: var(--showcase-accent); }
 .modal-actions { display:flex; gap:8px; margin:-8px 0 16px; }
