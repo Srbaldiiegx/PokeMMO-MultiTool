@@ -25,6 +25,39 @@ function getProfile(profileId) {
     return window.showcaseData.find(profile => profile.id === profileId);
 }
 
+// Funciones auxiliares para formatear nombres de Pokémon y URLs de sprites
+function formatPokemonSpriteName(name) {
+    if (!name) return '';
+    let clean = name.toLowerCase().trim();
+
+    if (clean === 'nidoran♂' || clean === 'nidoran m' || clean === 'nidoran-m') {
+        return 'nidoran-m';
+    }
+    if (clean === 'nidoran♀' || clean === 'nidoran f' || clean === 'nidoran-f') {
+        return 'nidoran-f';
+    }
+
+    clean = clean
+        .replace(/\./g, '')
+        .replace(/\s+/g, '-')
+        .replace(/['♀♂]/g, '');
+
+    return clean;
+}
+
+function formatPokemonDisplayName(name) {
+    if (!name) return '';
+    const lowerName = name.toLowerCase().trim();
+
+    if (lowerName === 'nidoran-m' || lowerName === 'nidoran♂') return 'Nidoran ♂';
+    if (lowerName === 'nidoran-f' || lowerName === 'nidoran♀') return 'Nidoran ♀';
+    if (lowerName === 'mime-jr' || lowerName === 'mime jr') return 'Mime Jr.';
+    if (lowerName === 'mr-mime' || lowerName === 'mr mime') return 'Mr. Mime';
+    if (lowerName === 'ho-oh' || lowerName === 'hooh') return 'Ho-Oh';
+
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
 async function saveProfile(profile) {
     if (!canManageProfile(profile)) {
         throw new Error('No tienes permiso para modificar este perfil.');
@@ -59,14 +92,17 @@ function openModal(profile) {
             const card = document.createElement('div');
             card.className = 'pokemon-card';
             card.onclick = () => openPokemonModal(pokemon);
-            const cleanName = pokemon.name.trim().toLowerCase();
+            
+            const cleanName = formatPokemonSpriteName(pokemon.name);
+            const displayName = formatPokemonDisplayName(pokemon.name);
+            
             const controls = canEdit ? `
                 <button class="fav-btn ${pokemon.isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavPokemon('${profile.id}', '${pokemon.id}')"><i class="fa-solid fa-star"></i></button>
                 <button class="delete-poke-btn" onclick="event.stopPropagation(); deletePokemon('${profile.id}', '${pokemon.id}')"><i class="fa-solid fa-trash-can"></i></button>` : '';
 
             card.innerHTML = `${controls}
                 <img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'">
-                <p>${pokemon.name.toUpperCase()}</p>
+                <p>${displayName.toUpperCase()}</p>
                 <span>${pokemon.encounters ? parseInt(pokemon.encounters).toLocaleString() : 0} encuentros</span>`;
             grid.appendChild(card);
         });
@@ -80,11 +116,14 @@ function openPokemonModal(pokemon) {
     const modal = document.getElementById('pokemon-detail-modal');
     if (modal.parentElement !== document.body) document.body.appendChild(modal);
 
-    document.getElementById('pmodal-name').innerText = pokemon.name.toUpperCase();
-    const cleanName = pokemon.name.trim().toLowerCase();
+    const displayName = formatPokemonDisplayName(pokemon.name);
+    document.getElementById('pmodal-name').innerText = displayName.toUpperCase();
+    
+    const cleanName = formatPokemonSpriteName(pokemon.name);
     const sprite = document.getElementById('pmodal-sprite');
     sprite.src = `https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif`;
     sprite.onerror = function () { this.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'; };
+    
     document.getElementById('pmodal-encounters').innerText = pokemon.encounters ? parseInt(pokemon.encounters).toLocaleString() : '0';
     document.getElementById('pmodal-nature').innerText = pokemon.nature || '---';
     document.getElementById('pmodal-location').innerText = pokemon.location || '---';
@@ -126,7 +165,9 @@ function renderShowcase(filter = '') {
         const card = document.createElement('div');
         card.className = 'member-card';
         card.onclick = () => openModal(profile);
-        const buddyHtml = favorite ? `<div class="buddy-sprite"><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${favorite.name.trim().toLowerCase()}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'"></div>` : '<div class="buddy-sprite"></div>';
+        
+        const cleanBuddyName = favorite ? formatPokemonSpriteName(favorite.name) : '';
+        const buddyHtml = favorite ? `<div class="buddy-sprite"><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanBuddyName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'"></div>` : '<div class="buddy-sprite"></div>';
         const deleteButton = canEdit ? `<button class="delete-user-btn" onclick="event.stopPropagation(); deleteUser('${profile.id}')"><i class="fa-solid fa-user-minus"></i></button>` : '';
         const ownerBadge = window.isAdmin && profile.ownerId !== window.currentUser?.uid ? '<span class="owner-badge">Perfil ajeno</span>' : '';
 
