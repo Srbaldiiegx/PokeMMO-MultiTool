@@ -135,6 +135,17 @@ function openPokemonModal(pokemon) {
     
     const cleanName = formatPokemonSpriteName(pokemon.name);
     const sprite = document.getElementById('pmodal-sprite');
+    const spriteContainer = sprite.parentElement;
+    const status = pokemon.status || 'active';
+    spriteContainer.classList.remove('detail-status-sold', 'detail-status-miss');
+    spriteContainer.querySelector('.detail-status-overlay')?.remove();
+    if (status === 'sold' || status === 'miss') {
+        spriteContainer.classList.add(`detail-status-${status}`);
+        const overlay = document.createElement('span');
+        overlay.className = `detail-status-overlay ${status}`;
+        overlay.textContent = status === 'sold' ? '💸' : 'MISSED';
+        spriteContainer.appendChild(overlay);
+    }
     sprite.src = `https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif`;
     sprite.onerror = function () { this.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'; };
     
@@ -186,7 +197,9 @@ function renderShowcase(filter = '') {
         card.onclick = () => openModal(profile);
         
         const cleanBuddyName = favorite ? formatPokemonSpriteName(favorite.name) : '';
-        const buddyHtml = favorite ? `<div class="buddy-sprite"><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanBuddyName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'"></div>` : '<div class="buddy-sprite"></div>';
+        const buddyStatus = favorite?.status || 'active';
+        const buddyOverlay = buddyStatus === 'sold' ? '<span class="buddy-status-overlay sold">💸</span>' : buddyStatus === 'miss' ? '<span class="buddy-status-overlay miss">MISS</span>' : '';
+        const buddyHtml = favorite ? `<div class="buddy-sprite buddy-status-${buddyStatus}"><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanBuddyName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'">${buddyOverlay}</div>` : '<div class="buddy-sprite"></div>';
         const deleteButton = canEdit ? `<button class="edit-user-btn" title="Editar perfil" onclick="event.stopPropagation(); editProfile('${profile.id}')"><i class="fa-solid fa-pen"></i></button><button class="delete-user-btn" onclick="event.stopPropagation(); deleteUser('${profile.id}')"><i class="fa-solid fa-user-minus"></i></button>` : '';
         const ownerBadge = window.isAdmin && profile.ownerId !== window.currentUser?.uid ? '<span class="owner-badge">Perfil ajeno</span>' : '';
         const customBadges = (profile.badges || []).map(badge => {
