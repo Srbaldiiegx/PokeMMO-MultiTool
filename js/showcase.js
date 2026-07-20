@@ -49,13 +49,19 @@ function formatPokemonDisplayName(name) {
     if (!name) return '';
     const lowerName = name.toLowerCase().trim();
 
+    // Casos especiales de género
     if (lowerName === 'nidoran-m' || lowerName === 'nidoran♂') return 'Nidoran ♂';
     if (lowerName === 'nidoran-f' || lowerName === 'nidoran♀') return 'Nidoran ♀';
+    
+    // Casos especiales con nombres compuestos
     if (lowerName === 'mime-jr' || lowerName === 'mime jr') return 'Mime Jr.';
     if (lowerName === 'mr-mime' || lowerName === 'mr mime') return 'Mr. Mime';
     if (lowerName === 'ho-oh' || lowerName === 'hooh') return 'Ho-Oh';
 
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    // Limpieza automática para Pokémon con formas (ej: shellos-east, gastrodon-west, unown-a, etc.)
+    // Esto quita la coletilla del sufijo para mostrar el nombre base capitalizado
+    const baseName = lowerName.split('-')[0];
+    return baseName.charAt(0).toUpperCase() + baseName.slice(1);
 }
 
 async function saveProfile(profile) {
