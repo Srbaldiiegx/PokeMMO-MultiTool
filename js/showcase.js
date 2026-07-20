@@ -99,7 +99,8 @@ function openModal(profile) {
     } else {
         pList.forEach(pokemon => {
             const card = document.createElement('div');
-            card.className = 'pokemon-card';
+            const status = pokemon.status || 'active';
+            card.className = `pokemon-card pokemon-status-${status}`;
             card.onclick = () => openPokemonModal(pokemon);
             
             const cleanName = formatPokemonSpriteName(pokemon.name);
@@ -110,7 +111,8 @@ function openModal(profile) {
                 <button class="edit-poke-btn" title="Editar shiny" onclick="event.stopPropagation(); editPokemon('${profile.id}', '${pokemon.id}')"><i class="fa-solid fa-pen"></i></button>
                 <button class="delete-poke-btn" onclick="event.stopPropagation(); deletePokemon('${profile.id}', '${pokemon.id}')"><i class="fa-solid fa-trash-can"></i></button>` : '';
 
-            card.innerHTML = `${controls}
+            const statusOverlay = status === 'sold' ? '<span class="pokemon-status-overlay sold" title="Vendido">💸</span>' : status === 'miss' ? '<span class="pokemon-status-overlay miss">MISS</span>' : '';
+            card.innerHTML = `${controls}${statusOverlay}
                 <img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/${cleanName}.gif" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/0.png'">
                 <p>${displayName.toUpperCase()}</p>
                 <span>${pokemon.encounters ? parseInt(pokemon.encounters).toLocaleString() : 0} encuentros</span>`;
@@ -256,7 +258,7 @@ function editPokemon(profileId, pokemonId) {
     if (!pokemon || !canManageProfile(profile)) return;
     closeModal(); switchShowcaseTab('pokemon');
     document.getElementById('poke-user-select').value = profileId;
-    ['name','nature','location','encounters','ivHp','ivAtk','ivDef','ivSpatk','ivSpdef','ivSpeed'].forEach(key => {
+    ['name','nature','location','encounters','status','ivHp','ivAtk','ivDef','ivSpatk','ivSpdef','ivSpeed'].forEach(key => {
         const input = document.getElementById(`poke-${key.replace('ivHp','iv-hp').replace('ivAtk','iv-atk').replace('ivDef','iv-def').replace('ivSpatk','iv-spatk').replace('ivSpdef','iv-spdef').replace('ivSpeed','iv-speed')}`);
         if (input) input.value = pokemon[key] || '';
     });

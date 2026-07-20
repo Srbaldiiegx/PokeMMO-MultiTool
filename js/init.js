@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nature: document.getElementById('poke-nature').value,
             location: document.getElementById('poke-location').value.trim() || 'Desconocido',
             encounters: document.getElementById('poke-encounters').value || '0',
+            status: document.getElementById('poke-status').value,
             ivHp: document.getElementById('poke-iv-hp').value || '0',
             ivAtk: document.getElementById('poke-iv-atk').value || '0',
             ivDef: document.getElementById('poke-iv-def').value || '0',
