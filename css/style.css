@@ -316,7 +316,11 @@
         .shiny-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; background-color: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius-md); }
         
         .pokemon-card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; text-align: center; position: relative; transition: 0.2s; }
-        .pokemon-card:hover { border-color: var(--showcase-accent); background: var(--bg-surface-hover); }
+.pokemon-card:hover { border-color: var(--showcase-accent); background: var(--bg-surface-hover); }
+.pokemon-status-sold img, .pokemon-status-miss img { filter: grayscale(1); opacity: .5; }
+.pokemon-status-overlay { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 4; border-radius: inherit; }
+.pokemon-status-overlay.sold { font-size: 2.15rem; text-shadow: 0 2px 4px #000; }
+.pokemon-status-overlay.miss { inset: 34% 5%; height: 26px; padding: 0 4px; border: 1px solid #ff9797; border-radius: 4px; background: rgba(182, 22, 32, .94); color: #fff; font-size: .8rem; font-weight: 900; line-height: 26px; transform: rotate(-10deg); box-shadow: 0 2px 5px rgba(0,0,0,.45); }
         
         .fav-btn { position: absolute; top: 5px; left: 5px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: color 0.2s; z-index: 10; }
         .fav-btn.active { color: var(--showcase-accent); }
