@@ -1,4 +1,4 @@
-﻿function addBerryChar() {
+function addBerryChar() {
         const name = document.getElementById('newCharBerry').value.trim();
         if(name) {
             berryChars.push({name, nextWater:'--:--', nextHarvest:'--:--', logs:[]});
@@ -27,9 +27,11 @@
     
     let tHarvest = new Date(ahora.getTime() + tiempoCosecha * 60 * 60 * 1000);
     active.nextHarvest = format(tHarvest);
+    active.nextHarvestAt = tHarvest.getTime();
 
     let tRiegoCalculado = new Date(ahora.getTime() + (type === 'extractoras' ? 5 : 9) * 60 * 60 * 1000);
     active.nextWater = format(tRiegoCalculado);
+    active.nextWaterAt = tRiegoCalculado.getTime();
 
     active.logs.unshift({
         label: `${nombreBaya} (Cosecha: ${tiempoCosecha}h)`,
@@ -110,6 +112,8 @@
     function resetBerryTimers(character) {
         character.nextWater = '--:--';
         character.nextHarvest = '--:--';
+        character.nextWaterAt = null;
+        character.nextHarvestAt = null;
     }
 
     function deleteBerryLog(charIdx, logIdx) {
@@ -129,5 +133,5 @@
         }
     }
 
-    // --- MANEJO DE SECCIONES GENERALES ---
+
     
