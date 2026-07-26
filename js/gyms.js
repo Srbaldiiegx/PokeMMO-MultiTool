@@ -1,4 +1,4 @@
-﻿function playBeep() {
+function playBeep() {
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = ctx.createOscillator();
@@ -8,14 +8,23 @@
             gain.gain.setValueAtTime(0.05, ctx.currentTime);
             osc.connect(gain);
             gain.connect(ctx.destination);
+            activeOscillators.add(osc);
+            osc.onended = () => {
+                activeOscillators.delete(osc);
+                ctx.close().catch(() => {});
+            };
             osc.start();
             osc.stop(ctx.currentTime + 0.2);
         } catch(e) { console.log("Audio no iniciado"); }
     }
 
-    function triggerAlarm(id, message) {
+    const activeOscillators = new Set();
+    const alarmCallbacks = new Map();
+
+    function triggerAlarm(id, message, onStop) {
         if (activeAlerts.has(id)) return;
         activeAlerts.add(id);
+        if (onStop) alarmCallbacks.set(id, onStop);
         const container = document.getElementById('alert-container');
         const alertDiv = document.createElement('div');
         alertDiv.className = 'alert-banner';
@@ -27,21 +36,46 @@
 
     function stopAlarm(id) {
         activeAlerts.delete(id);
+        const onStop = alarmCallbacks.get(id);
+        alarmCallbacks.delete(id);
         const el = document.getElementById(`alert-${id}`);
         if (el) el.remove();
-        if (activeAlerts.size === 0) { clearInterval(audioInterval); audioInterval = null; }
+        if (activeAlerts.size === 0) {
+            clearInterval(audioInterval);
+            audioInterval = null;
+            activeOscillators.forEach((osc) => {
+                try { osc.stop(); } catch (_) { /* Ya se había detenido. */ }
+            });
+        }
+        if (onStop) onStop();
     }
 
     function checkNotifications() {
-        const ahora = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        const ahora = Date.now();
         berryChars.forEach((char, index) => {
-            if (char.nextWater === ahora && !activeAlerts.has(`${index}-water`)) {
-                triggerAlarm(`${index}-water`, `💧 Toca REGAR en: ${char.name}`);
+            const waterAlarmId = `${index}-water`;
+            const harvestAlarmId = `${index}-harvest`;
+            if (Number.isFinite(char.nextWaterAt) && char.nextWaterAt <= ahora && !activeAlerts.has(waterAlarmId)) {
+                const dueAt = char.nextWaterAt;
+                triggerAlarm(waterAlarmId, `💧 Toca REGAR en: ${char.name}`, () => completeBerryReminder(index, 'water', dueAt));
             }
-            if (char.nextHarvest === ahora && !activeAlerts.has(`${index}-harvest`)) {
-                triggerAlarm(`${index}-harvest`, `🍓 Toca COSECHAR en: ${char.name}`);
+            if (Number.isFinite(char.nextHarvestAt) && char.nextHarvestAt <= ahora && !activeAlerts.has(harvestAlarmId)) {
+                const dueAt = char.nextHarvestAt;
+                triggerAlarm(harvestAlarmId, `🍓 Toca COSECHAR en: ${char.name}`, () => completeBerryReminder(index, 'harvest', dueAt));
             }
         });
+    }
+
+    function completeBerryReminder(charIdx, reminderType, dueAt) {
+        const character = berryChars[charIdx];
+        if (!character) return;
+        const timestampKey = reminderType === 'water' ? 'nextWaterAt' : 'nextHarvestAt';
+        const displayKey = reminderType === 'water' ? 'nextWater' : 'nextHarvest';
+        if (character[timestampKey] !== dueAt) return;
+        character[timestampKey] = null;
+        character[displayKey] = '--:--';
+        saveAll();
+        renderBerry();
     }
 
     // --- HISTORIAL ---
@@ -49,6 +83,10 @@
         const log = berryChars[charIdx].logs[logIdx];
         berryChars[charIdx].nextWater = log.riego || '--:--';
         berryChars[charIdx].nextHarvest = log.cosecha;
+        // Los historiales antiguos solo guardan una hora, no una fecha completa.
+        // No se reactivan como alarmas de un día distinto.
+        berryChars[charIdx].nextWaterAt = null;
+        berryChars[charIdx].nextHarvestAt = null;
         saveAll();
         renderBerry();
     }
@@ -140,5 +178,5 @@
         }
     }
 
-    // --- FUNCIONES BAYAS ---
+
     
