@@ -43,7 +43,7 @@
             <button onclick="showSection('redfarm-section', document.getElementById('farm-nav-btn'))">🔴 Red Farm</button>
             <button onclick="showSection('gyms-guide-section', document.getElementById('farm-nav-btn'))">⚔️ Run de Gyms</button>
             <button onclick="showSection('hooh-section', document.getElementById('farm-nav-btn'))">🔥 Ho-Oh</button>
-            <button onclick="openLigasSection(document.getElementById('farm-nav-btn'))">🏆 Ligas</button>
+            <button onclick="openSection(document.getElementById('farm-nav-btn'))">🏆 </button>
         </div>
     </div>
 </nav>
@@ -91,9 +91,11 @@
 
 <!-- SECCIÓN INTEGRADA: LIGAS -->
 <div id="ligas-section" class="section-container">
-    <div class="card" style="padding: 0; overflow: hidden;">
-        <iframe id="ligas-frame" src="" data-src="ligas.html" title="Guía Liga Pokémon" style="width: 100%; height: 85vh; border: none; display: block;"></iframe>
+<div id="ligas-section" class="section-container" style="max-width: 100%; width: 100%; padding: 8px 16px 16px; box-sizing: border-box; margin: 0;">
+    <div class="card" style="max-width: 100%; width: 100%; padding: 0; overflow: hidden; border-radius: 12px;">
+        <iframe id="ligas-frame" src="" data-src="ligas.html" title="Guía Liga Pokémon" style="width: 100%; height: calc(100vh - 115px); min-height: 620px; border: none; display: block;"></iframe>
     </div>
+</div>
 </div>
 
 <div id="gym-section" class="section-container active">
