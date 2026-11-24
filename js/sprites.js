@@ -243,7 +243,7 @@ window.TRAINERS = {
   "Bruno": "https://play.pokemonshowdown.com/sprites/trainers/bruno.png",
   "Karen": "https://play.pokemonshowdown.com/sprites/trainers/karen.png",
   "Lance": "https://play.pokemonshowdown.com/sprites/trainers/lance.png",
-  "Lorelei": "https://play.pokemonshowdown.com/sprites/trainers/lorelei.png",
-  "Agatha": "https://play.pokemonshowdown.com/sprites/trainers/agatha.png",
+  "Lorelei": "https://play.pokemonshowdown.com/sprites/trainers/lorelei-gen3.png",
+  "Agatha": "https://play.pokemonshowdown.com/sprites/trainers/agatha-gen3.png",
   "Blue": "https://play.pokemonshowdown.com/sprites/trainers/blue.png",
 };
